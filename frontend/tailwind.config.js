@@ -14,5 +14,5 @@ module.exports = {
             borderWidth: ['hover'],
         },
     },
-    plugins: [],
+    plugins: [require('@tailwindcss/line-clamp')],
 };
