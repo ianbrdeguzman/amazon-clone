@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { AiOutlineSearch, AiOutlineShoppingCart } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router';
 import logo from '../assets/Amazon_logo.svg';
+import { AiOutlineSearch, AiOutlineShoppingCart } from 'react-icons/ai';
 
 const Header = () => {
     const [input, setInput] = useState('');
+
+    const history = useHistory();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -11,10 +15,19 @@ const Header = () => {
         setInput('');
     };
 
+    const handleLoginOnClick = () => {
+        history.push('/login');
+    };
+    const handleCartOnClick = () => {
+        history.push('/cart');
+    };
+
     return (
         <div className='md:flex items-center p-4 bg-primary text-white'>
             <div className='flex flex-1'>
-                <img src={logo} alt='logo' className='w-24 md:w-32' />
+                <Link to='/'>
+                    <img src={logo} alt='logo' className='w-24 md:w-32' />
+                </Link>
                 <form
                     className='flex-1 flex ml-4 md:mr-4 relative'
                     onSubmit={handleSubmit}
@@ -36,7 +49,10 @@ const Header = () => {
                 </form>
             </div>
             <div className='flex mt-2 justify-between'>
-                <button className='mx-2 p-2 border border-transparent hover:border-white focus:outline-none'>
+                <button
+                    onClick={handleLoginOnClick}
+                    className='mx-2 p-2 border border-transparent hover:border-white focus:outline-none'
+                >
                     <p className='text-left text-xs'>Hello, Sign in</p>
                     <p className='text-left font-bold text-xs'>
                         Account & Lists
@@ -46,7 +62,10 @@ const Header = () => {
                     <p className='text-left text-xs'>Returns</p>
                     <p className='text-left font-bold text-xs'>& Orders</p>
                 </button>
-                <button className='flex items-center mx-2 pl-2 pr-4 border border-transparent hover:border-white relative focus:outline-none'>
+                <button
+                    onClick={handleCartOnClick}
+                    className='flex items-center mx-2 pl-2 pr-4 border border-transparent hover:border-white relative focus:outline-none'
+                >
                     <AiOutlineShoppingCart size={28} />
                     <span className='absolute right-0 top-0 bg-yellow-500 px-2 rounded-full'>
                         0

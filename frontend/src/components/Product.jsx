@@ -1,16 +1,20 @@
 import React from 'react';
 import { BsStarFill, BsStarHalf, BsStar } from 'react-icons/bs';
 import numeral from 'numeral';
+import { useHistory } from 'react-router';
 
 const Product = ({ _id, rating, image, price, reviews, title }) => {
-    const handleOnclick = () => {
-        console.log('clicked');
+    const history = useHistory();
+
+    const handleOnclick = (id) => {
+        history.push(`/product/${id}`);
     };
+
     return (
         <article
             key={_id}
             className='bg-white w-[150px] sm:w-[200px] m-1 relative -top-10 md:-top-32 lg:-top-60 cursor-pointer shadow rounded'
-            onClick={handleOnclick}
+            onClick={() => handleOnclick(_id)}
         >
             <div className='w-[150px] sm:w-[200px] h-[250px]'>
                 <img
