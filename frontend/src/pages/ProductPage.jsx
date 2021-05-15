@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Rating from '../components/Rating';
+import Loader from '../components/Loader';
+import { getSingleProduct } from '../components/api';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
-import { getSingleProduct } from '../components/api';
 import moment from 'moment';
 import numeral from 'numeral';
 
@@ -11,10 +12,11 @@ const ProductPage = () => {
     const { id } = useParams();
 
     const [product, setProduct] = useState('');
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const fetchSingleProduct = async (id) => {
+            setIsLoading(true);
             setProduct(await getSingleProduct(id));
             setIsLoading(false);
         };
@@ -29,7 +31,9 @@ const ProductPage = () => {
                 </button>
             </Link>
             {isLoading ? (
-                <h1>Loading...</h1>
+                <div className='flex justify-center align-center'>
+                    <Loader />
+                </div>
             ) : (
                 <div className='w-11/12 max-w-[1500px] mx-auto md:pt-10 container flex flex-col md:flex-row'>
                     <div className='w-full max-w-[300px] mx-auto md:mx-4'>
