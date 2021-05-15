@@ -17,7 +17,10 @@ function App() {
                     <Layout>
                         <Route exact path='/' component={HomePage} />
                         <Route path='/product/:id' component={ProductPage} />
-                        <Route path='/cart' component={CartPage} />
+                        <Route
+                            path='/cart/:id?/:quantity?'
+                            component={CartPage}
+                        />
                     </Layout>
                 </Switch>
             </Router>
