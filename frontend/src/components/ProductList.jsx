@@ -20,7 +20,7 @@ const ProductList = () => {
                 {isLoading ? (
                     <h1>Loading...</h1>
                 ) : (
-                    products.map((product) => {
+                    products?.map((product) => {
                         return <Product {...product} key={product._id} />;
                     })
                 )}
