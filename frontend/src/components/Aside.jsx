@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
+import { useHistory } from 'react-router';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
+import moment from 'moment';
 
 const Aside = () => {
     const {
-        productDetails: { price, stock },
+        productDetails: { price, stock, _id },
     } = useSelector((state) => state.productDetails);
+
+    const [quantity, setQuantity] = useState(1);
+
+    const history = useHistory();
+
+    const handleAddToCartOnClick = () => {
+        history.push(`/cart/${_id}/${quantity}`);
+    };
 
     return (
         <div className='md:w-11/12 md:max-w-[250px] h-11/12 border border-gray-300 p-4 mb-4 rounded-lg'>
@@ -28,8 +37,10 @@ const Aside = () => {
                     name='quantity'
                     id='quantity'
                     className='py-1 px-2 border border-black-100 rounded'
+                    value={quantity}
+                    onChange={(e) => setQuantity(e.target.value)}
                 >
-                    {[...new Array(10)].map((item, index) => {
+                    {[...new Array(stock).keys()].map((index) => {
                         return (
                             <option value={index + 1} key={index}>
                                 {index + 1}
@@ -39,7 +50,10 @@ const Aside = () => {
                 </select>
             </div>
             {stock ? (
-                <button className='border border-black w-full rounded py-1 relative bg-button'>
+                <button
+                    onClick={handleAddToCartOnClick}
+                    className='border border-black w-full rounded py-1 relative bg-button'
+                >
                     <AiOutlineShoppingCart
                         size={18}
                         className='absolute top-1.5 left-1'
