@@ -14,13 +14,11 @@ const ProductPage = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const fetchProducts = async (id) => {
-            const data = await getSingleProduct();
-            const product = data.find((item) => item._id === parseInt(id));
-            setProduct(product);
+        const fetchSingleProduct = async (id) => {
+            setProduct(await getSingleProduct(id));
             setIsLoading(false);
         };
-        fetchProducts(id);
+        fetchSingleProduct(id);
     }, [id]);
 
     return (
