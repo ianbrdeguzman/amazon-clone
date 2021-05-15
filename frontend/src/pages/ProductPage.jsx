@@ -1,27 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Rating from '../components/Rating';
 import Loader from '../components/Loader';
-import { getSingleProduct } from '../components/api';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { AiOutlineShoppingCart } from 'react-icons/ai';
-import moment from 'moment';
 import numeral from 'numeral';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProductDetails } from '../redux/actions/product.action';
+import Aside from '../components/Aside';
 
 const ProductPage = () => {
     const { id } = useParams();
 
-    const [product, setProduct] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    const { productDetails, isLoading } = useSelector(
+        (state) => state.productDetails
+    );
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        const fetchSingleProduct = async (id) => {
-            setIsLoading(true);
-            setProduct(await getSingleProduct(id));
-            setIsLoading(false);
-        };
-        fetchSingleProduct(id);
-    }, [id]);
+        dispatch(getProductDetails(id));
+    }, [id, dispatch]);
 
     return (
         <div>
@@ -37,20 +35,26 @@ const ProductPage = () => {
             ) : (
                 <div className='w-11/12 max-w-[1500px] mx-auto md:pt-10 container flex flex-col md:flex-row'>
                     <div className='w-full max-w-[300px] mx-auto md:mx-4'>
-                        <img src={product.image} alt={product.title} />
+                        <img
+                            src={productDetails.image}
+                            alt={productDetails.title}
+                        />
                     </div>
                     <div className='md:mr-4'>
-                        <h2 className='text-2xl my-4'>{product.title}</h2>
+                        <h2 className='text-2xl my-4'>
+                            {productDetails.title}
+                        </h2>
                         <div className='flex'>
-                            <Rating rating={product.rating} />
+                            <Rating rating={productDetails.rating} />
                             <p className='ml-2 text-sm text-primary'>
-                                {numeral(product.reviews).format('0,0')} ratings
+                                {numeral(productDetails.reviews).format('0,0')}{' '}
+                                ratings
                             </p>
                         </div>
                         <p className='my-4 text-2xl text-danger'>
-                            ${product.price}
+                            ${productDetails.price}
                         </p>
-                        <p className='mb-4'>{product.description}</p>
+                        <p className='mb-4'>{productDetails.description}</p>
                         <p className='mb-4'>
                             Lorem ipsum dolor sit amet consectetur adipisicing
                             elit. Facere error, debitis et distinctio, sapiente
@@ -74,56 +78,7 @@ const ProductPage = () => {
                             tenetur.
                         </p>
                     </div>
-                    <div className='md:w-11/12 md:max-w-[250px] h-11/12 border border-gray-300 p-4 mb-4 rounded-lg'>
-                        <p className='text-2xl text-danger'>${product.price}</p>
-                        <p className='font-semibold my-2'>
-                            <span className='text-primary'>FREE Delivery </span>
-                            {moment().add(7, 'days').format('dddd MMMM Do')}
-                        </p>
-                        {product.stock ? (
-                            <p className='text-success text-xl'>In Stock</p>
-                        ) : (
-                            <p className='text-red-500 text-xl'>Out of Stock</p>
-                        )}
-                        <div className='my-4 flex justify-between align-center'>
-                            <label htmlFor='quantity' className='mr-2'>
-                                Quantity
-                            </label>
-                            <select
-                                name='quantity'
-                                id='quantity'
-                                className='py-1 px-2 border border-black-100 rounded'
-                            >
-                                {[...new Array(10)].map((item, index) => {
-                                    return (
-                                        <option value={index + 1} key={index}>
-                                            {index + 1}
-                                        </option>
-                                    );
-                                })}
-                            </select>
-                        </div>
-                        {product.stock ? (
-                            <button className='border border-black w-full rounded py-1 relative bg-button'>
-                                <AiOutlineShoppingCart
-                                    size={18}
-                                    className='absolute top-1.5 left-1'
-                                />
-                                <span>Add to Cart</span>
-                            </button>
-                        ) : (
-                            <button
-                                className='border border-black w-full rounded py-1 relative bg-gray-200 opacity-50'
-                                disabled
-                            >
-                                <AiOutlineShoppingCart
-                                    size={18}
-                                    className='absolute top-1.5 left-1'
-                                />
-                                <span>Add to Cart</span>
-                            </button>
-                        )}
-                    </div>
+                    <Aside />
                 </div>
             )}
         </div>

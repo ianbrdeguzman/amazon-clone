@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Product from './Product';
-import { getAllProducts } from '../components/api';
 import Loader from './Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProductList } from '../redux/actions/product.action';
 
 const ProductList = () => {
-    const [products, setProducts] = useState('');
-    const [isLoading, setIsLoading] = useState(true);
+    const { products, isLoading } = useSelector((state) => state.productList);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            setProducts(await getAllProducts());
-            setIsLoading(false);
-        };
-        fetchProducts();
-    }, []);
+        dispatch(getProductList());
+    }, [dispatch]);
 
     return (
         <div>
