@@ -23,7 +23,7 @@ const Header = () => {
     };
 
     return (
-        <div className='md:flex items-center p-4 bg-primary text-white'>
+        <div className='md:flex items-center p-4 bg-header text-white'>
             <div className='flex flex-1'>
                 <Link to='/'>
                     <img src={logo} alt='logo' className='w-24 md:w-32' />
@@ -42,7 +42,7 @@ const Header = () => {
                     />
                     <button
                         type='submit'
-                        className='p-3 bg-yellow-400 rounded-tr rounded-br absolute top-0 right-0'
+                        className='p-3 bg-buttonSearch text-black rounded-tr rounded-br absolute top-0 right-0'
                     >
                         <AiOutlineSearch />
                     </button>
@@ -67,7 +67,7 @@ const Header = () => {
                     className='flex items-center mx-2 pl-2 pr-4 border border-transparent hover:border-white relative focus:outline-none'
                 >
                     <AiOutlineShoppingCart size={28} />
-                    <span className='absolute right-0 top-0 bg-yellow-500 px-2 rounded-full'>
+                    <span className='absolute right-0 top-0 bg-cartAmount px-2 rounded-full'>
                         0
                     </span>
                 </button>

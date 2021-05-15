@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const getAllProducts = async () => {
     try {
-        const { data } = await axios.get('./products.json');
+        const { data } = await axios.get('products.json');
         return data;
     } catch (err) {
         console.log(err);
@@ -11,10 +11,7 @@ export const getAllProducts = async () => {
 
 export const getSingleProduct = async (id) => {
     try {
-        const { data } = await axios.get(
-            `https://fakestoreapi.com/products/${id}`
-        );
-        console.log(data);
+        const { data } = await axios.get('../products.json');
         return data;
     } catch (err) {
         console.log(err);

@@ -1,7 +1,7 @@
 import React from 'react';
-import { BsStarFill, BsStarHalf, BsStar } from 'react-icons/bs';
-import numeral from 'numeral';
+import Rating from './Rating';
 import { useHistory } from 'react-router';
+import numeral from 'numeral';
 
 const Product = ({ _id, rating, image, price, reviews, title }) => {
     const history = useHistory();
@@ -24,58 +24,14 @@ const Product = ({ _id, rating, image, price, reviews, title }) => {
                 />
             </div>
             <div className='bg-gray-50 flex flex-col p-4'>
-                <p className='text-lg font-semibold'>${price}</p>
-                <p className='line-clamp-2 text-sm h-[42px]'>{title}</p>
-                <div className='flex items-center'>
-                    <span className='text-yellow-500'>
-                        {rating >= 1 ? (
-                            <BsStarFill />
-                        ) : rating >= 0.5 ? (
-                            <BsStarHalf />
-                        ) : (
-                            <BsStar />
-                        )}
-                    </span>
-                    <span className='text-yellow-500'>
-                        {rating >= 2 ? (
-                            <BsStarFill />
-                        ) : rating >= 1.5 ? (
-                            <BsStarHalf />
-                        ) : (
-                            <BsStar />
-                        )}
-                    </span>
-                    <span className='text-yellow-500'>
-                        {rating >= 3 ? (
-                            <BsStarFill />
-                        ) : rating >= 2.5 ? (
-                            <BsStarHalf />
-                        ) : (
-                            <BsStar />
-                        )}
-                    </span>
-                    <span className='text-yellow-500'>
-                        {rating >= 4 ? (
-                            <BsStarFill />
-                        ) : rating >= 3.5 ? (
-                            <BsStarHalf />
-                        ) : (
-                            <BsStar />
-                        )}
-                    </span>
-                    <span className='text-yellow-500'>
-                        {rating >= 5 ? (
-                            <BsStarFill />
-                        ) : rating >= 4.5 ? (
-                            <BsStarHalf />
-                        ) : (
-                            <BsStar />
-                        )}
-                    </span>
-                    <p className='ml-2 text-sm'>
+                <p className='line-clamp-2 text-lg h-[60px]'>{title}</p>
+                <div className='flex'>
+                    <Rating rating={rating} />
+                    <p className='ml-2 text-sm text-primary'>
                         {numeral(reviews).format('0,0')}
                     </p>
                 </div>
+                <p className='text-lg font-semibold'>${price}</p>
             </div>
         </article>
     );
