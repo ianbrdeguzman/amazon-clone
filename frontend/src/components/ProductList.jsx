@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Product from './Product';
 import { getAllProducts } from '../components/api';
+import Loader from './Loader';
 
 const ProductList = () => {
     const [products, setProducts] = useState('');
@@ -18,7 +19,7 @@ const ProductList = () => {
         <div>
             <div className='max-w-[1500px] mx-auto flex flex-wrap justify-center'>
                 {isLoading ? (
-                    <h1>Loading...</h1>
+                    <Loader />
                 ) : (
                     products?.map((product) => {
                         return <Product {...product} key={product._id} />;
