@@ -24,7 +24,7 @@ const ProductPage = () => {
     return (
         <div>
             <Link to='/'>
-                <button className='m-4 border border-gray-100 p-1 rounded'>
+                <button className='ml-4 p-1 my-4 bg-checkout rounded-md'>
                     Back to result
                 </button>
             </Link>

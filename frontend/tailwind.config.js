@@ -10,6 +10,8 @@ module.exports = {
             buttonSearch: '#febd69',
             header: '#131921',
             cartAmount: '#f08804',
+            cartBackground: '#eaeded',
+            checkout: '#ffd814',
         }),
         textColor: (theme) => ({
             ...theme('colors'),
@@ -18,6 +20,10 @@ module.exports = {
             danger: '#b12704',
             warning: '#ffa41c',
         }),
+        minHeight: {
+            screenSm: 'calc(100vh - 130px)',
+            screenMd: 'calc(100vh - 90px)',
+        },
         extend: {},
     },
     variants: {
