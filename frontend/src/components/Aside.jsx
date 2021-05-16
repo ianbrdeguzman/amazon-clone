@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import moment from 'moment';
+import numeral from 'numeral';
 
 const Aside = () => {
     const {
@@ -19,7 +20,9 @@ const Aside = () => {
 
     return (
         <div className='md:w-11/12 md:max-w-[250px] h-11/12 border border-gray-300 p-4 mb-4 rounded-lg'>
-            <p className='text-2xl text-danger'>${price}</p>
+            <p className='text-2xl text-danger'>
+                ${numeral(price).format('0,0.00')}
+            </p>
             <p className='font-semibold my-2'>
                 <span className='text-primary'>FREE Delivery </span>
                 {moment().add(7, 'days').format('dddd MMMM Do')}

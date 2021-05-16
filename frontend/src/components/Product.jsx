@@ -3,7 +3,7 @@ import Rating from './Rating';
 import { useHistory } from 'react-router';
 import numeral from 'numeral';
 
-const Product = ({ _id, rating, image, price, reviews, title }) => {
+const Product = ({ _id, rating, image, reviews, title }) => {
     const history = useHistory();
 
     const handleOnclick = (id) => {
@@ -31,7 +31,6 @@ const Product = ({ _id, rating, image, price, reviews, title }) => {
                         {numeral(reviews).format('0,0')}
                     </p>
                 </div>
-                <p className='text-lg font-semibold'>${price}</p>
             </div>
         </article>
     );

@@ -10,7 +10,7 @@ module.exports = {
             buttonSearch: '#febd69',
             header: '#131921',
             cartAmount: '#f08804',
-            cartBackground: '#eaeded',
+            mainBackground: '#eaeded',
             checkout: '#ffd814',
         }),
         textColor: (theme) => ({
