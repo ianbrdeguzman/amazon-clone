@@ -31,7 +31,7 @@ const Aside = () => {
             )}
             <div className='my-4 flex justify-between align-center'>
                 <label htmlFor='quantity' className='mr-2'>
-                    Quantity
+                    Qty:
                 </label>
                 <select
                     name='quantity'
@@ -49,29 +49,19 @@ const Aside = () => {
                     })}
                 </select>
             </div>
-            {stock ? (
-                <button
-                    onClick={handleAddToCartOnClick}
-                    className='border border-black w-full rounded py-1 relative bg-button'
-                >
-                    <AiOutlineShoppingCart
-                        size={18}
-                        className='absolute top-1.5 left-1'
-                    />
-                    <span>Add to Cart</span>
-                </button>
-            ) : (
-                <button
-                    className='border border-black w-full rounded py-1 relative bg-gray-200 opacity-50'
-                    disabled
-                >
-                    <AiOutlineShoppingCart
-                        size={18}
-                        className='absolute top-1.5 left-1'
-                    />
-                    <span>Add to Cart</span>
-                </button>
-            )}
+            <button
+                onClick={handleAddToCartOnClick}
+                disabled={!stock}
+                className={`border border-black w-full rounded py-1 relative ${
+                    stock ? 'bg-button' : 'bg-gray-200 opacity-50'
+                }`}
+            >
+                <AiOutlineShoppingCart
+                    size={18}
+                    className='absolute top-1.5 left-1'
+                />
+                <span>Add to Cart</span>
+            </button>
         </div>
     );
 };
