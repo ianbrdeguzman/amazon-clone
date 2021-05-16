@@ -1,13 +1,16 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
 import { addToCart, removeFromCart } from '../redux/actions/cart.action';
 
 const CartItem = ({ image, price, productId, quantity, stock, title }) => {
     const dispatch = useDispatch();
 
+    const history = useHistory();
+
     const handleDeleteOnClick = () => {
-        // remove item from cart
         dispatch(removeFromCart(productId));
+        history.push('/cart');
     };
 
     return (

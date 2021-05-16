@@ -4,6 +4,7 @@ import { useHistory } from 'react-router';
 import logo from '../assets/Amazon_logo.svg';
 import { AiOutlineSearch, AiOutlineShoppingCart } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
+import numeral from 'numeral';
 
 const Header = () => {
     const [input, setInput] = useState('');
@@ -71,7 +72,9 @@ const Header = () => {
                 >
                     <AiOutlineShoppingCart size={28} />
                     <span className='absolute right-0 top-0 bg-cartAmount px-2 rounded-full'>
-                        {cartItems.reduce((a, c) => a + c.quantity, 0)}
+                        {numeral(
+                            cartItems.reduce((a, c) => a + c.quantity, 0)
+                        ).format('0,0')}
                     </span>
                 </button>
             </div>
