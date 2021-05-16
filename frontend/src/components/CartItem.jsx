@@ -1,13 +1,13 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { addToCart } from '../redux/actions/cart.action';
+import { addToCart, removeFromCart } from '../redux/actions/cart.action';
 
 const CartItem = ({ image, price, productId, quantity, stock, title }) => {
     const dispatch = useDispatch();
 
     const handleDeleteOnClick = () => {
         // remove item from cart
-        console.log('remove from cart');
+        dispatch(removeFromCart(productId));
     };
 
     return (

@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import Ad from '../components/Ad';
 import CartItem from '../components/CartItem';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../redux/actions/cart.action';
 import emptyCart from '../assets/empty_cart.svg';
 import numeral from 'numeral';
@@ -28,7 +29,7 @@ const CartPage = () => {
                 <Ad />
                 <div className='bg-cartBackground py-4 min-h-screenSm md:min-h-screenMd'>
                     <div className='w-11/12 mx-4 bg-white p-4 md:flex'>
-                        <div className='w-full md:w-1/3'>
+                        <div className='w-full md:w-1/3  mr-4'>
                             <img
                                 src={emptyCart}
                                 alt='empty cart'
@@ -36,12 +37,14 @@ const CartPage = () => {
                             />
                         </div>
                         <div>
-                            <h2 class='text-4xl my-4'>
+                            <h2 className='text-4xl my-4'>
                                 Your Amazon Cart is empty
                             </h2>
-                            <button className='w-full p-1 my-4 bg-checkout rounded-md'>
-                                Go back shopping
-                            </button>
+                            <Link to='/'>
+                                <button className='w-full p-1 my-4 bg-checkout rounded-md'>
+                                    Go back shopping
+                                </button>
+                            </Link>
                         </div>
                     </div>
                 </div>
