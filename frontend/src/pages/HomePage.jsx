@@ -4,7 +4,7 @@ import Slider from '../components/Slider';
 
 const HomePage = () => {
     return (
-        <div>
+        <div className='bg-mainBackground'>
             <Slider />
             <ProductList />
         </div>
