@@ -5,7 +5,8 @@ import { data } from './data.js';
 import userRouter from './routers/userRouter.js';
 
 mongoose.connect(
-    'mongodb+srv://admin:admin123@cluster0.z4nms.mongodb.net/amazonClone',
+    process.env.MONGODB_URL ||
+        'mongodb+srv://admin:admin123@cluster0.z4nms.mongodb.net/amazonClone',
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -38,6 +39,11 @@ app.get('/api/products/:id', (req, res) => {
 });
 
 app.use('/api/users', userRouter);
+
+// catch error
+app.use((err, req, res, next) => {
+    res.status(500).send({ message: err.message });
+});
 
 const PORT = process.env.PORT || 5000;
 
