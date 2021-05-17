@@ -1,6 +1,22 @@
 import express from 'express';
 import cors from 'cors';
+import mongoose from 'mongoose';
 import { data } from './data.js';
+import userRouter from './routers/userRouter.js';
+
+mongoose.connect(
+    'mongodb+srv://admin:admin123@cluster0.z4nms.mongodb.net/amazonClone',
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true,
+    }
+);
+
+mongoose.connection.once('open', () => {
+    console.log('MongoDB Atlas connection successful');
+});
 
 const app = express();
 
@@ -20,6 +36,8 @@ app.get('/api/products/:id', (req, res) => {
     const product = data.products.find((item) => item._id === parseInt(id));
     res.json(product);
 });
+
+app.use('/api/users', userRouter);
 
 const PORT = process.env.PORT || 5000;
 
