@@ -3,6 +3,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import { data } from './data.js';
 import userRouter from './routers/userRouter.js';
+import productRouter from './routers/productRouter.js';
 
 mongoose.connect(
     process.env.MONGODB_URL ||
@@ -28,17 +29,21 @@ app.get('/', (req, res) => {
     res.send('Server is ready');
 });
 
-app.get('/api/products', (req, res) => {
-    res.json(data.products);
-});
+// app.get('/api/products', (req, res) => {
+//     res.json(data.products);
+// });
 
-app.get('/api/products/:id', (req, res) => {
-    const id = req.params.id;
-    const product = data.products.find((item) => item._id === parseInt(id));
-    res.json(product);
-});
+// app.get('/api/products/:id', (req, res) => {
+//     const id = req.params.id;
+//     const product = data.products.find((item) => item._id === parseInt(id));
+//     res.json(product);
+// });
 
+// users route
 app.use('/api/users', userRouter);
+
+// products route
+app.use('/api/products', productRouter);
 
 // catch error
 app.use((err, req, res, next) => {
