@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import ChecoutSteps from '../components/CheckoutSteps';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addShippingAddress } from '../redux/actions/cart.action';
 
 const ShippingPage = () => {
     const [fullname, setFullname] = useState('');
@@ -14,6 +17,9 @@ const ShippingPage = () => {
     const [cityErr, setCityErr] = useState(null);
     const [postalErr, setPostalErr] = useState(null);
     const [phoneErr, setPhoneErr] = useState(null);
+
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     const handleShippingSubmit = (e) => {
         e.preventDefault();
@@ -46,7 +52,19 @@ const ShippingPage = () => {
             setCity('');
             setPostal('');
             setPhone('');
-            console.log('submitted...');
+
+            dispatch(
+                addShippingAddress({
+                    fullname,
+                    addressOne,
+                    addressTwo,
+                    city,
+                    postal,
+                    phone,
+                })
+            );
+
+            history.push('/payment');
         }
     }, [
         fullnameErr,
@@ -65,6 +83,14 @@ const ShippingPage = () => {
         setCity,
         setPostal,
         setPhone,
+        fullname,
+        addressOne,
+        addressTwo,
+        city,
+        postal,
+        phone,
+        history,
+        dispatch,
     ]);
     return (
         <div>
