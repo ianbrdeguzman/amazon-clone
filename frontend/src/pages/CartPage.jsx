@@ -24,7 +24,7 @@ const CartPage = () => {
 
     const handleCheckoutOnClick = () => {
         if (userInfo) {
-            console.log('go to checkout page or shipping details page...');
+            history.push('/shipping');
         } else {
             history.push('/login?redirect=shipping');
         }
