@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ChecoutSteps from '../components/CheckoutSteps';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addShippingAddress } from '../redux/actions/cart.action';
 
 const ShippingPage = () => {
@@ -20,6 +20,17 @@ const ShippingPage = () => {
 
     const dispatch = useDispatch();
     const history = useHistory();
+
+    const { userInfo } = useSelector((state) => state.userLogin);
+    const { cartItems } = useSelector((state) => state.cart);
+
+    if (!userInfo) {
+        history.push('/login');
+    }
+
+    if (cartItems.length === 0) {
+        history.push('/');
+    }
 
     const handleShippingSubmit = (e) => {
         e.preventDefault();

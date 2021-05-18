@@ -25,6 +25,7 @@ function App() {
                             path='/cart/:id?/:quantity?'
                             component={CartPage}
                         />
+                        {/* <Route component={HomePage} /> */}
                     </Layout>
                 </Switch>
             </Router>
