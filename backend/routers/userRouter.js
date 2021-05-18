@@ -29,11 +29,16 @@ userRouter.post(
                     isAdmin: user.isAdmin,
                     token: generateToken(user),
                 });
+                return;
             }
-            return;
-        } else {
-            res.status(401).send({ message: 'Invalid email or password' });
+        } else if (!user) {
+            res.status(401).send({
+                message: 'We cannot find an account with that e-mail address.',
+            });
         }
+        res.status(401).send({
+            message: 'You might have entered a wrong password.',
+        });
     })
 );
 
