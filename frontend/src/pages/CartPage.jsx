@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Ad from '../components/Ad';
 import CartItem from '../components/CartItem';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../redux/actions/cart.action';
@@ -14,13 +14,20 @@ const CartPage = () => {
     const dispatch = useDispatch();
 
     const { cartItems } = useSelector((state) => state.cart);
+    const { userInfo } = useSelector((state) => state.userLogin);
+
+    const history = useHistory();
 
     useEffect(() => {
         if (id) dispatch(addToCart(id, +quantity));
     }, [id, quantity, dispatch]);
 
     const handleCheckoutOnClick = () => {
-        console.log('checkout... go to shipping page..');
+        if (userInfo) {
+            console.log('go to checkout page or shipping details page...');
+        } else {
+            history.push('/login?redirect=shipping');
+        }
     };
 
     if (cartItems.length === 0) {

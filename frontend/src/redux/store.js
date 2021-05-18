@@ -11,9 +11,14 @@ import {
 
 import { cartReducer } from './reducers/cart.reducer';
 
+import { userLoginReducer } from './reducers/user.reducer';
+
 const initialState = {
     cart: {
         cartItems: JSON.parse(localStorage.getItem('cart')) || [],
+    },
+    userLogin: {
+        userInfo: JSON.parse(localStorage.getItem('userInfo')) || null,
     },
 };
 
@@ -21,6 +26,7 @@ const rootReducer = combineReducers({
     productList: productListReducer,
     productDetails: productDetailsReducer,
     cart: cartReducer,
+    userLogin: userLoginReducer,
 });
 
 const store = createStore(
