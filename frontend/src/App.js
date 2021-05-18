@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import CartPage from './pages/CartPage';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import ShippingPage from './pages/ShippingPage';
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                             path='/cart/:id?/:quantity?'
                             component={CartPage}
                         />
+                        <Route path='/shipping' component={ShippingPage} />
                     </Layout>
                 </Switch>
             </Router>

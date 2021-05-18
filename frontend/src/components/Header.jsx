@@ -3,15 +3,19 @@ import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import logo from '../assets/Amazon_logo.svg';
 import { AiOutlineSearch, AiOutlineShoppingCart } from 'react-icons/ai';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import numeral from 'numeral';
+import { userLogout } from '../redux/actions/user.action';
 
 const Header = () => {
     const [input, setInput] = useState('');
 
     const { cartItems } = useSelector((state) => state.cart);
+    const { userInfo } = useSelector((state) => state.userLogin);
 
     const history = useHistory();
+
+    const dispatch = useDispatch();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -22,6 +26,12 @@ const Header = () => {
     const handleLoginOnClick = () => {
         history.push('/login');
     };
+
+    const handleLogoutOnClick = () => {
+        dispatch(userLogout());
+        history.push('/');
+    };
+
     const handleCartOnClick = () => {
         history.push('/cart');
     };
@@ -53,15 +63,27 @@ const Header = () => {
                 </form>
             </div>
             <div className='flex mt-2 justify-between'>
-                <button
-                    onClick={handleLoginOnClick}
-                    className='mx-2 p-2 border border-transparent hover:border-white focus:outline-none'
-                >
-                    <p className='text-left text-xs'>Hello, Sign in</p>
-                    <p className='text-left font-bold text-xs'>
-                        Account & Lists
-                    </p>
-                </button>
+                {userInfo ? (
+                    <button
+                        onClick={handleLogoutOnClick}
+                        className='mx-2 p-2 border border-transparent hover:border-white focus:outline-none'
+                    >
+                        <p className='text-left text-xs'>
+                            Hello, {userInfo.name}
+                        </p>
+                        <p className='text-left font-bold text-xs'>Sign out</p>
+                    </button>
+                ) : (
+                    <button
+                        onClick={handleLoginOnClick}
+                        className='mx-2 p-2 border border-transparent hover:border-white focus:outline-none'
+                    >
+                        <p className='text-left text-xs'>Hello, Sign in</p>
+                        <p className='text-left font-bold text-xs'>
+                            Account & Lists
+                        </p>
+                    </button>
+                )}
                 <button className='mx-2 p-2 border border-transparent hover:border-white focus:outline-none'>
                     <p className='text-left text-xs'>Returns</p>
                     <p className='text-left font-bold text-xs'>& Orders</p>
