@@ -15,6 +15,7 @@ function App() {
                 <Switch>
                     <Route path='/login' component={LoginPage} />
                     <Route path='/register' component={RegisterPage} />
+                    <Route path='/shipping' component={ShippingPage} />
                     <Layout>
                         <Route exact path='/' component={HomePage} />
                         <Route path='/product/:id' component={ProductPage} />
@@ -22,7 +23,6 @@ function App() {
                             path='/cart/:id?/:quantity?'
                             component={CartPage}
                         />
-                        <Route path='/shipping' component={ShippingPage} />
                     </Layout>
                 </Switch>
             </Router>
