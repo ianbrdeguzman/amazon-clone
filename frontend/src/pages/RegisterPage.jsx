@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import logo from '../assets/Amazon_logo.svg.png';
 import { Link, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { userRegister } from '../redux/actions/user.action';
+import { FiAlertTriangle } from 'react-icons/fi';
 
-const RegisterPage = () => {
+const RegisterPage = (props) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -14,6 +17,11 @@ const RegisterPage = () => {
     const [passwordAgainErr, setPasswordAgainErr] = useState(null);
 
     const history = useHistory();
+    const dispatch = useDispatch();
+
+    const { errorMessage, userInfo } = useSelector(
+        (state) => state.userRegister
+    );
 
     const handleSubmitOnClick = (e) => {
         e.preventDefault();
@@ -24,6 +32,10 @@ const RegisterPage = () => {
             ? setPasswordAgainErr(true)
             : setPasswordAgainErr(false);
     };
+
+    const redirect = props.location.search
+        ? props.location.search.split('=')[1]
+        : '/';
 
     useEffect(() => {
         if (
@@ -40,7 +52,7 @@ const RegisterPage = () => {
             setEmail('');
             setPassword('');
             setPasswordAgain('');
-            // history.push('/');
+            dispatch(userRegister(name, email, password));
         }
     }, [
         name,
@@ -52,7 +64,18 @@ const RegisterPage = () => {
         emailErr,
         passwordErr,
         passwordAgainErr,
+        dispatch,
+        redirect,
     ]);
+
+    useEffect(() => {
+        if (errorMessage) {
+            history.push(`/register?redirect=${redirect}`);
+        }
+        if (userInfo) {
+            history.push(redirect);
+        }
+    }, [errorMessage, userInfo, redirect, history]);
 
     return (
         <div>
@@ -64,7 +87,19 @@ const RegisterPage = () => {
                         className='w-full h-full object-contain'
                     />
                 </div>
-
+                {errorMessage && (
+                    <div className='flex border border-red-500 my-4 p-4 rounded'>
+                        <div className='mt-1 mr-4 text-red-500'>
+                            <FiAlertTriangle size={26} />
+                        </div>
+                        <div>
+                            <h2 className='font-semibold text-lg text-red-500'>
+                                There was a problem
+                            </h2>
+                            <p className='text-sm'>{errorMessage}</p>
+                        </div>
+                    </div>
+                )}
                 <div className='border rounded p-4'>
                     <h1 className='text-3xl'>Sign In</h1>
                     <form onSubmit={handleSubmitOnClick}>
@@ -161,7 +196,10 @@ const RegisterPage = () => {
                 </div>
                 <div className='text-sm my-4 flex'>
                     <p className='mr-2'>Already have an account?</p>
-                    <Link to='/login' className='text-blue-700'>
+                    <Link
+                        to={`/login?redirect=${redirect}`}
+                        className='text-blue-700'
+                    >
                         Sign in
                     </Link>
                 </div>
