@@ -54,7 +54,6 @@ const LoginPage = (props) => {
                         </div>
                     </div>
                 )}
-
                 <div className='border rounded p-4'>
                     <h1 className='text-3xl'>Sign In</h1>
                     <form onSubmit={handleSubmitOnClick}>
@@ -98,7 +97,7 @@ const LoginPage = (props) => {
                 </div>
                 <div className='text-sm text-center my-4'>
                     <p>New to Amazon?</p>
-                    <Link to='/register'>
+                    <Link to={`/register?redirect=${redirect}`}>
                         <button className='border border-gray-400 rounded p-1 w-full mt-2 bg-gray-100'>
                             Create your Amazon account
                         </button>

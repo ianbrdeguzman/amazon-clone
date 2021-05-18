@@ -3,7 +3,30 @@ import {
     USER_LOGIN_SUCESS,
     USER_LOGIN_FAIL,
     USER_LOGOUT,
+    USER_REGISTER_REQUEST,
+    USER_REGISTER_SUCESS,
+    USER_REGISTER_FAIL,
 } from '../actionTypes';
+
+export const userRegisterReducer = (
+    state = {
+        isLoading: false,
+        userInfo: null,
+        errorMessage: null,
+    },
+    action
+) => {
+    switch (action.type) {
+        case USER_REGISTER_REQUEST:
+            return { ...state, isLoading: true };
+        case USER_REGISTER_SUCESS:
+            return { ...state, isLoading: false, userInfo: action.payload };
+        case USER_REGISTER_FAIL:
+            return { ...state, isLoading: false, errorMessage: action.payload };
+        default:
+            return { ...state };
+    }
+};
 
 export const userLoginReducer = (
     state = {
