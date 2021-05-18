@@ -74,7 +74,7 @@ const LoginPage = (props) => {
                         />
                         <label
                             htmlFor='password'
-                            className='block text-sm font-bold'
+                            className='block text-sm font-bold mt-4'
                         >
                             Password
                         </label>
