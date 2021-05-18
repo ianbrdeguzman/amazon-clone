@@ -7,6 +7,7 @@ import RegisterPage from './pages/RegisterPage';
 import CartPage from './pages/CartPage';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ShippingPage from './pages/ShippingPage';
+import PaymentPage from './pages/PaymentPage';
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                     <Route path='/login' component={LoginPage} />
                     <Route path='/register' component={RegisterPage} />
                     <Route path='/shipping' component={ShippingPage} />
+                    <Route path='/payment' component={PaymentPage} />
                     <Layout>
                         <Route exact path='/' component={HomePage} />
                         <Route path='/product/:id' component={ProductPage} />
