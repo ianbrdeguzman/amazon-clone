@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import numeral from 'numeral';
 
 const PlaceOrder = () => {
-    const { shippingAddress, paymentMethod, cartItems } = useSelector(
+    const { shippingDetails, paymentMethod, cartItems } = useSelector(
         (state) => state.cart
     );
 
@@ -47,39 +47,39 @@ const PlaceOrder = () => {
                                         <span className='font-semibold'>
                                             Full name:
                                         </span>{' '}
-                                        {shippingAddress.fullname}
+                                        {shippingDetails.fullname}
                                     </p>
                                     <p>
                                         <span className='font-semibold'>
                                             Address Line 1:
                                         </span>{' '}
-                                        {shippingAddress.addressOne}
+                                        {shippingDetails.addressOne}
                                     </p>
                                     <p>
                                         <span className='font-semibold'>
                                             Address Line 2:
                                         </span>{' '}
-                                        {shippingAddress.addressTwo}
+                                        {shippingDetails.addressTwo}
                                     </p>
                                     <p>
                                         <span className='font-semibold'>
                                             City:
                                         </span>{' '}
-                                        {shippingAddress.city}
+                                        {shippingDetails.city}
                                     </p>
                                     <p>
                                         <span className='font-semibold'>
                                             Postal Code:
                                         </span>{' '}
                                         <span className='uppercase'>
-                                            {shippingAddress.postal}
+                                            {shippingDetails.postal}
                                         </span>
                                     </p>
                                     <p>
                                         <span className='font-semibold'>
                                             Telephone Number:
                                         </span>{' '}
-                                        {shippingAddress.phone}
+                                        {shippingDetails.phone}
                                     </p>
                                 </div>
                             </div>

@@ -3,6 +3,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import userRouter from './routers/userRouter.js';
 import productRouter from './routers/productRouter.js';
+import orderRouter from './routers/orderRouter.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -36,6 +37,9 @@ app.use('/api/users', userRouter);
 
 // products route
 app.use('/api/products', productRouter);
+
+// order route
+app.use('/api/orders', orderRouter);
 
 // catch error
 app.use((err, req, res, next) => {

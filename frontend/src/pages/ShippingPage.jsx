@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import ChecoutSteps from '../components/CheckoutSteps';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addShippingAddress } from '../redux/actions/cart.action';
+import { addShippingDetails } from '../redux/actions/cart.action';
 
 const ShippingPage = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
     const { userInfo } = useSelector((state) => state.userLogin);
-    const { cartItems, shippingAddress } = useSelector((state) => state.cart);
+    const { cartItems, shippingDetails } = useSelector((state) => state.cart);
 
     if (!userInfo) {
         history.push('/login');
@@ -19,16 +19,16 @@ const ShippingPage = () => {
         history.push('/');
     }
 
-    const [fullname, setFullname] = useState(shippingAddress.fullname || '');
+    const [fullname, setFullname] = useState(shippingDetails.fullname || '');
     const [addressOne, setAddressOne] = useState(
-        shippingAddress.addressOne || ''
+        shippingDetails.addressOne || ''
     );
     const [addressTwo, setAddressTwo] = useState(
-        shippingAddress.addressTwo || ''
+        shippingDetails.addressTwo || ''
     );
-    const [city, setCity] = useState(shippingAddress.city || '');
-    const [postal, setPostal] = useState(shippingAddress.postal || '');
-    const [phone, setPhone] = useState(shippingAddress.phone || '');
+    const [city, setCity] = useState(shippingDetails.city || '');
+    const [postal, setPostal] = useState(shippingDetails.postal || '');
+    const [phone, setPhone] = useState(shippingDetails.phone || '');
 
     const [fullnameErr, setFullnameErr] = useState(null);
     const [addressOneErr, setAddressOneErr] = useState(null);
@@ -36,7 +36,7 @@ const ShippingPage = () => {
     const [postalErr, setPostalErr] = useState(null);
     const [phoneErr, setPhoneErr] = useState(null);
 
-    const handleShippingSubmit = (e) => {
+    const handleShippingOnSubmit = (e) => {
         e.preventDefault();
         fullname.length === 0 ? setFullnameErr(true) : setFullnameErr(false);
         addressOne.length === 0
@@ -69,7 +69,7 @@ const ShippingPage = () => {
             setPhone('');
 
             dispatch(
-                addShippingAddress({
+                addShippingDetails({
                     fullname,
                     addressOne,
                     addressTwo,
@@ -114,7 +114,7 @@ const ShippingPage = () => {
                 <h1 className='text-3xl'>Select a shipping address</h1>
                 <form
                     className='my-4 font-semibold text-sm'
-                    onSubmit={handleShippingSubmit}
+                    onSubmit={handleShippingOnSubmit}
                 >
                     <div className='mb-2'>
                         <label htmlFor='fullname'>
