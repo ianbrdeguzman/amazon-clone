@@ -22,7 +22,7 @@ const PlaceOrder = () => {
         cartItems.reduce((a, c) => a + c.price * c.quantity, 0) * 0.13
     ).format('0,0.00');
 
-    const orderTotal = numeral(+itemPrice + +shippingPrice + +taxPrice).format(
+    const totalPrice = numeral(+itemPrice + +shippingPrice + +taxPrice).format(
         '0,0.00'
     );
 
@@ -145,7 +145,7 @@ const PlaceOrder = () => {
                         </div>
                         <div className='flex justify-between mt-2 text-sm font-bold'>
                             <p>Order Total</p>
-                            <p>${orderTotal}</p>
+                            <p>${totalPrice}</p>
                         </div>
                         <button
                             onClick={handlePlaceOrderOnClick}
