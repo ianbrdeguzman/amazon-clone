@@ -40,5 +40,4 @@ export const addShippingAddress = (data) => async (dispatch) => {
 };
 export const addPaymentMethod = (data) => async (dispatch) => {
     dispatch({ type: CART_ADD_PAYMENT_METHOD, payload: data });
-    localStorage.setItem('paymentMethod', data);
 };

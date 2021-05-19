@@ -19,12 +19,12 @@ function App() {
                     <Route path='/shipping' component={ShippingPage} />
                     <Route path='/payment' component={PaymentPage} />
                     <Layout>
-                        <Route exact path='/' component={HomePage} />
                         <Route path='/product/:id' component={ProductPage} />
                         <Route
                             path='/cart/:id?/:quantity?'
                             component={CartPage}
                         />
+                        <Route exact path='/' component={HomePage} />
                         {/* <Route component={HomePage} /> */}
                     </Layout>
                 </Switch>
