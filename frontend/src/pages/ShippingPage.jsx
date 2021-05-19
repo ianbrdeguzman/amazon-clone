@@ -223,7 +223,7 @@ const ShippingPage = () => {
                     </div>
                     <button
                         type='submit'
-                        className='border border-gray-500 py-1 px-2 my-4 rounded bg-yellow-400 focus:outline-none'
+                        className='w-full md:w-auto border border-gray-500 py-1 px-2 my-4 rounded bg-yellow-400 focus:outline-none'
                     >
                         Continue
                     </button>

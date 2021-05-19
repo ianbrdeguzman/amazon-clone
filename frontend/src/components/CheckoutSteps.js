@@ -1,12 +1,26 @@
 import React from 'react';
 import logo from '../assets/Amazon_logo.svg.png';
 
-const CheckoutSteps = ({ step1, step2, step3, step4, shipping }) => {
+const CheckoutSteps = ({
+    step1,
+    step2,
+    step3,
+    step4,
+    shipping,
+    payment,
+    placeorder,
+}) => {
     return (
         <div>
             <div
                 className={`w-full max-w-[540px] p-4 uppercase text-xs font-semibold flex flex-col md:flex-row justify-self-start ${
-                    shipping ? '' : 'mx-auto'
+                    shipping
+                        ? 'mx-auto'
+                        : placeorder
+                        ? ''
+                        : payment
+                        ? ''
+                        : 'mx-auto'
                 }`}
             >
                 <div className='w-24 mx-auto md:mr-4'>

@@ -27,11 +27,10 @@ const PaymentPage = () => {
 
     return (
         <div className='max-w-[1000px] mx-auto'>
-            <CheckoutSteps step1 step2 step3 shipping />
+            <CheckoutSteps step1 step2 step3 payment />
             <div className='p-4'>
                 <h1 className='text-3xl'>Select payment method</h1>
                 <Ad payment />
-                <h2 className='text-2xl my-4'>Select payment method</h2>
                 <form onSubmit={handlePaymentMethodOnSubmit}>
                     <div className='flex my-4 h-[33px] align-center'>
                         <input
@@ -67,7 +66,7 @@ const PaymentPage = () => {
                     <div className='w-full'>
                         <button
                             type='submit'
-                            className='w-full md:w-auto my-4 border border-gray-500 py-1 px-2 rounded bg-yellow-300 focus:outline-none'
+                            className='w-full md:w-auto my-4 border border-gray-500 py-1 px-2 rounded bg-yellow-400 focus:outline-none text-sm'
                         >
                             Continue
                         </button>
