@@ -44,13 +44,13 @@ const PlaceOrder = () => {
                                 <h2 className='font-bold'>Shipping address</h2>
                                 <div className='text-sm mt-4'>
                                     <p>
-                                        <span class='font-semibold'>
+                                        <span className='font-semibold'>
                                             Full name:
                                         </span>{' '}
                                         {shippingAddress.fullname}
                                     </p>
                                     <p>
-                                        <span class='font-semibold'>
+                                        <span className='font-semibold'>
                                             Address Line 1:
                                         </span>{' '}
                                         {shippingAddress.addressOne}
@@ -98,7 +98,10 @@ const PlaceOrder = () => {
                             <div className='sm:flex flex-col text-sm'>
                                 {cartItems.map((product) => {
                                     return (
-                                        <div className='sm:flex sm:justify-between w-full my-4'>
+                                        <div
+                                            key={product.productId}
+                                            className='sm:flex sm:justify-between w-full my-4'
+                                        >
                                             <div className='w-full sm:w-[120px] sm:h-[120px] sm:mr-4'>
                                                 <img
                                                     src={product.image}
