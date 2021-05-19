@@ -1,12 +1,12 @@
 import React from 'react';
 import image from '../assets/ad.png';
 
-const Ad = ({ cart }) => {
+const Ad = ({ cart, payment }) => {
     return (
         <div className='bg-cartBackground pt-4'>
             <div
-                className={`w-11/12 bg-white p-4 flex ${
-                    cart ? 'mx-auto' : 'mx-4'
+                className={`w-full max-w-11/12 bg-white p-4 flex ${
+                    cart ? 'mx-auto' : payment ? 'md:mx-0' : 'md:mx-4'
                 }`}
             >
                 <div className='min-w-[90px] mr-4'>

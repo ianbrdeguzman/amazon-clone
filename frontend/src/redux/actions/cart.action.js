@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import {
     CART_ADD_ITEM,
+    CART_ADD_PAYMENT_METHOD,
     CART_ADD_SHIPPING_ADDRESS,
     CART_REMOVE_ITEM,
 } from '../actionTypes';
@@ -36,4 +37,8 @@ export const removeFromCart = (id) => async (dispatch, getState) => {
 export const addShippingAddress = (data) => async (dispatch) => {
     dispatch({ type: CART_ADD_SHIPPING_ADDRESS, payload: data });
     localStorage.setItem('shippingAddress', JSON.stringify(data));
+};
+export const addPaymentMethod = (data) => async (dispatch) => {
+    dispatch({ type: CART_ADD_PAYMENT_METHOD, payload: data });
+    localStorage.setItem('paymentMethod', data);
 };

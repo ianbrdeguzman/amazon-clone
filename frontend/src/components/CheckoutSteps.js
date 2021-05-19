@@ -1,10 +1,14 @@
 import React from 'react';
 import logo from '../assets/Amazon_logo.svg.png';
 
-const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
+const CheckoutSteps = ({ step1, step2, step3, step4, shipping }) => {
     return (
         <div>
-            <div className='w-full max-w-[540px] mx-auto p-4 uppercase text-xs font-semibold flex flex-col md:flex-row justify-self-start'>
+            <div
+                className={`w-full max-w-[540px] p-4 uppercase text-xs font-semibold flex flex-col md:flex-row justify-self-start ${
+                    shipping ? '' : 'mx-auto'
+                }`}
+            >
                 <div className='w-24 mx-auto md:mr-4'>
                     <img src={logo} alt='logo' />
                 </div>
