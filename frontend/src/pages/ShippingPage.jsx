@@ -19,12 +19,16 @@ const ShippingPage = () => {
         history.push('/');
     }
 
-    const [fullname, setFullname] = useState(shippingAddress.fullname);
-    const [addressOne, setAddressOne] = useState(shippingAddress.addressOne);
-    const [addressTwo, setAddressTwo] = useState(shippingAddress.addressTwo);
-    const [city, setCity] = useState(shippingAddress.city);
-    const [postal, setPostal] = useState(shippingAddress.postal);
-    const [phone, setPhone] = useState(shippingAddress.phone);
+    const [fullname, setFullname] = useState(shippingAddress.fullname || '');
+    const [addressOne, setAddressOne] = useState(
+        shippingAddress.addressOne || ''
+    );
+    const [addressTwo, setAddressTwo] = useState(
+        shippingAddress.addressTwo || ''
+    );
+    const [city, setCity] = useState(shippingAddress.city || '');
+    const [postal, setPostal] = useState(shippingAddress.postal || '');
+    const [phone, setPhone] = useState(shippingAddress.phone || '');
 
     const [fullnameErr, setFullnameErr] = useState(null);
     const [addressOneErr, setAddressOneErr] = useState(null);
