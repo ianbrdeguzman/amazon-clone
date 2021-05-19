@@ -1,7 +1,7 @@
 import {
     CART_ADD_ITEM,
     CART_ADD_PAYMENT_METHOD,
-    CART_ADD_SHIPPING_ADDRESS,
+    CART_ADD_SHIPPING_DETAILS,
     CART_REMOVE_ITEM,
 } from '../actionTypes';
 
@@ -40,7 +40,7 @@ export const cartReducer = (
                     (item) => item.productId !== action.payload
                 ),
             };
-        case CART_ADD_SHIPPING_ADDRESS:
+        case CART_ADD_SHIPPING_DETAILS:
             return {
                 ...state,
                 shippingAddress: action.payload,

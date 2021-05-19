@@ -16,8 +16,8 @@ import { userLoginReducer, userRegisterReducer } from './reducers/user.reducer';
 const initialState = {
     cart: {
         cartItems: JSON.parse(localStorage.getItem('cartItems')) || [],
-        shippingAddress:
-            JSON.parse(localStorage.getItem('shippingAddress')) || {},
+        shippingDetails:
+            JSON.parse(localStorage.getItem('shippingDetails')) || {},
         paymentMethod: 'PayPal',
     },
     userLogin: {
