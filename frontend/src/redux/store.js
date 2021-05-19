@@ -18,6 +18,8 @@ const initialState = {
         cartItems: JSON.parse(localStorage.getItem('cart')) || [],
         shippingAddress:
             JSON.parse(localStorage.getItem('shippingAddress')) || {},
+        paymentMethod:
+            JSON.parse(localStorage.getItem('paymentMethod')) || 'PayPal',
     },
     userLogin: {
         userInfo: JSON.parse(localStorage.getItem('userInfo')) || null,

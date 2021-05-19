@@ -105,7 +105,7 @@ const ShippingPage = () => {
     ]);
     return (
         <div>
-            <ChecoutSteps step1 step2 />
+            <ChecoutSteps step1 step2 shipping />
             <div className='w-full max-w-[540px] mx-auto p-4'>
                 <h1 className='text-3xl'>Select a shipping address</h1>
                 <form
