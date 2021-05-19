@@ -8,6 +8,7 @@ import CartPage from './pages/CartPage';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ShippingPage from './pages/ShippingPage';
 import PaymentPage from './pages/PaymentPage';
+import PlaceOrder from './pages/PlaceOrder';
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                     <Route path='/register' component={RegisterPage} />
                     <Route path='/shipping' component={ShippingPage} />
                     <Route path='/payment' component={PaymentPage} />
+                    <Route path='/placeorder' component={PlaceOrder} />
                     <Layout>
                         <Route path='/product/:id' component={ProductPage} />
                         <Route
