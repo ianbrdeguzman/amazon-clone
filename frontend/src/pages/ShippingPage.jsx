@@ -5,24 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addShippingAddress } from '../redux/actions/cart.action';
 
 const ShippingPage = () => {
-    const [fullname, setFullname] = useState('');
-    const [addressOne, setAddressOne] = useState('');
-    const [addressTwo, setAddressTwo] = useState('');
-    const [city, setCity] = useState('');
-    const [postal, setPostal] = useState('');
-    const [phone, setPhone] = useState('');
-
-    const [fullnameErr, setFullnameErr] = useState(null);
-    const [addressOneErr, setAddressOneErr] = useState(null);
-    const [cityErr, setCityErr] = useState(null);
-    const [postalErr, setPostalErr] = useState(null);
-    const [phoneErr, setPhoneErr] = useState(null);
-
     const dispatch = useDispatch();
     const history = useHistory();
 
     const { userInfo } = useSelector((state) => state.userLogin);
-    const { cartItems } = useSelector((state) => state.cart);
+    const { cartItems, shippingAddress } = useSelector((state) => state.cart);
 
     if (!userInfo) {
         history.push('/login');
@@ -31,6 +18,19 @@ const ShippingPage = () => {
     if (cartItems.length === 0) {
         history.push('/');
     }
+
+    const [fullname, setFullname] = useState(shippingAddress.fullname);
+    const [addressOne, setAddressOne] = useState(shippingAddress.addressOne);
+    const [addressTwo, setAddressTwo] = useState(shippingAddress.addressTwo);
+    const [city, setCity] = useState(shippingAddress.city);
+    const [postal, setPostal] = useState(shippingAddress.postal);
+    const [phone, setPhone] = useState(shippingAddress.phone);
+
+    const [fullnameErr, setFullnameErr] = useState(null);
+    const [addressOneErr, setAddressOneErr] = useState(null);
+    const [cityErr, setCityErr] = useState(null);
+    const [postalErr, setPostalErr] = useState(null);
+    const [phoneErr, setPhoneErr] = useState(null);
 
     const handleShippingSubmit = (e) => {
         e.preventDefault();
