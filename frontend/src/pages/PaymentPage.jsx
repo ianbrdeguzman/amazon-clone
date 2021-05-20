@@ -13,9 +13,9 @@ const PaymentPage = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const { shippingAddress } = useSelector((state) => state.cart);
+    const { shippingDetails } = useSelector((state) => state.cart);
 
-    if (!shippingAddress.addressOne) {
+    if (!shippingDetails.addressOne) {
         history.push('/shipping');
     }
 
