@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import ErrorMessage from '../components/ErrorMessage';
 import { Link, useHistory } from 'react-router-dom';
-import logo from '../assets/Amazon_logo.svg.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogin } from '../redux/actions/user.action';
-import { FiAlertTriangle } from 'react-icons/fi';
+import logo from '../assets/Amazon_logo.svg.png';
 
 const LoginPage = (props) => {
     const [email, setEmail] = useState('');
@@ -35,25 +35,15 @@ const LoginPage = (props) => {
         <div>
             <div className='w-11/12 mx-auto max-w-[348px] py-8 flex flex-col justify-center'>
                 <div className='w-[100px] mx-auto mb-4'>
-                    <img
-                        src={logo}
-                        alt='logo'
-                        className='w-full h-full object-contain'
-                    />
+                    <Link to='/'>
+                        <img
+                            src={logo}
+                            alt='logo'
+                            className='w-full h-full object-contain'
+                        />
+                    </Link>
                 </div>
-                {errorMessage && (
-                    <div className='flex border border-red-500 my-4 p-4 rounded'>
-                        <div className='mt-1 mr-4 text-red-500'>
-                            <FiAlertTriangle size={26} />
-                        </div>
-                        <div>
-                            <h2 className='font-semibold text-lg text-red-500'>
-                                There was a problem
-                            </h2>
-                            <p className='text-sm'>{errorMessage}</p>
-                        </div>
-                    </div>
-                )}
+                {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
                 <div className='border rounded p-4'>
                     <h1 className='text-3xl'>Sign In</h1>
                     <form onSubmit={handleSubmitOnClick}>
