@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from '../assets/Amazon_logo.svg.png';
+import { Link } from 'react-router-dom';
 
 const CheckoutSteps = ({
     step1,
@@ -24,7 +25,9 @@ const CheckoutSteps = ({
                 }`}
             >
                 <div className='w-24 mx-auto md:mr-4'>
-                    <img src={logo} alt='logo' />
+                    <Link to='/'>
+                        <img src={logo} alt='logo' />
+                    </Link>
                 </div>
                 <div className='flex-1 flex justify-center md:justify-start mt-4'>
                     <div
@@ -34,7 +37,9 @@ const CheckoutSteps = ({
                                 : 'pl-4 border-t border-gray-300 text-gray-300'
                         }`}
                     >
-                        <p>welcome</p>
+                        <Link to='/cart'>
+                            <p>cart</p>
+                        </Link>
                     </div>
                     <div
                         className={` ${
@@ -43,7 +48,9 @@ const CheckoutSteps = ({
                                 : 'pl-4 border-t border-gray-300 text-gray-300'
                         }`}
                     >
-                        <p>address</p>
+                        <Link to='/shipping'>
+                            <p>address</p>
+                        </Link>
                     </div>
                     <div
                         className={`${
@@ -52,7 +59,9 @@ const CheckoutSteps = ({
                                 : 'pl-4 border-t border-gray-300 text-gray-300'
                         }`}
                     >
-                        <p>payment</p>
+                        <Link to='/payment'>
+                            <p>payment</p>
+                        </Link>
                     </div>
                     <div
                         className={`${
@@ -61,7 +70,9 @@ const CheckoutSteps = ({
                                 : 'pl-4 border-t border-gray-300 text-gray-300'
                         }`}
                     >
-                        <p>place order</p>
+                        <Link to='/placeorder'>
+                            <p>place order</p>
+                        </Link>
                     </div>
                 </div>
             </div>

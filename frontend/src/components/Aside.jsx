@@ -19,7 +19,7 @@ const Aside = () => {
     };
 
     return (
-        <div className='md:w-11/12 md:max-w-[250px] h-11/12 border border-gray-300 p-4 mb-4 rounded-lg'>
+        <div className='md:w-11/12 md:max-w-[250px] h-11/12 border p-4 mb-4 md:mt-4 rounded md:h-72'>
             <p className='text-2xl text-danger'>
                 ${numeral(price).format('0,0.00')}
             </p>
@@ -39,7 +39,7 @@ const Aside = () => {
                 <select
                     name='quantity'
                     id='quantity'
-                    className='py-1 px-2 border border-black-100 rounded'
+                    className='py-1 px-2 border rounded'
                     value={quantity}
                     onChange={(e) => setQuantity(e.target.value)}
                 >
