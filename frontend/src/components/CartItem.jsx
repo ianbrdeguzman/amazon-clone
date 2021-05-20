@@ -1,7 +1,9 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../redux/actions/cart.action';
+import numeral from 'numeral';
 
 const CartItem = ({ image, price, productId, quantity, stock, title }) => {
     const dispatch = useDispatch();
@@ -23,14 +25,16 @@ const CartItem = ({ image, price, productId, quantity, stock, title }) => {
                 />
             </div>
             <div className=''>
-                <h2 className='text-xl my-2'>{title}</h2>
+                <Link to={`/product/${productId}`}>
+                    <h2 className='text-xl my-2'>{title}</h2>
+                </Link>
                 {stock > 0 ? (
                     <p className='text-success'>In Stock</p>
                 ) : (
                     <p className='text-danger'>Out of Stock</p>
                 )}
                 <div className='flex justify-between my-4 '>
-                    <div className='border border-gray-300 p-1 rounded-md'>
+                    <div className='border p-1 rounded-md'>
                         <label htmlFor='quantity' className='mr-2'>
                             Qty:
                         </label>
@@ -60,7 +64,7 @@ const CartItem = ({ image, price, productId, quantity, stock, title }) => {
                     </button>
                 </div>
                 <p className='absolute top-4 right-0 text-lg font-bold'>
-                    ${price}
+                    ${numeral(price).format('0,0.00')}
                 </p>
             </div>
         </div>

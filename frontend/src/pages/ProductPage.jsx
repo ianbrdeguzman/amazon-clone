@@ -34,7 +34,7 @@ const ProductPage = () => {
                 </div>
             ) : (
                 <div className='w-11/12 max-w-[1500px] mx-auto pt-10 container flex flex-col md:flex-row'>
-                    <div className='w-full max-w-[300px] mx-auto md:mx-4'>
+                    <div className='w-full max-w-[300px] mx-auto md:mx-4 md:mt-4'>
                         <img
                             src={productDetails.image}
                             alt={productDetails.title}

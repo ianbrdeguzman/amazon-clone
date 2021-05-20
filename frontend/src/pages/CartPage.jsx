@@ -114,7 +114,7 @@ const CartPage = () => {
                     </p>
                     <button
                         onClick={handleCheckoutOnClick}
-                        className='w-full p-1 my-4 bg-checkout rounded-md'
+                        className='w-full p-1 my-4 bg-checkout border border-gray-500 rounded-md'
                     >
                         Proceed to checkout
                     </button>
