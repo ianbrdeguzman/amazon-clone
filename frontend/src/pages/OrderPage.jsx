@@ -1,27 +1,47 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import Loader from '../components/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOrderDetails } from '../redux/actions/order.action';
 import { useHistory, useParams } from 'react-router-dom';
-import numeral from 'numeral';
+import OrderItem from '../components/OrderItem';
+import ErrorMessage from '../components/ErrorMessage';
 
 const OrderPage = () => {
     const { id } = useParams();
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const { userInfo } = useSelector((state) => state.userLogin);
     if (!userInfo) {
         history.push('/login');
     }
-    return (
+
+    const { orderDetails, isLoading, errorMessage } = useSelector(
+        (state) => state.orderDetails
+    );
+
+    const { isDelivered, isPaid, orderItems, shippingDetails } = orderDetails;
+
+    useEffect(() => {
+        dispatch(getOrderDetails(id));
+    }, [dispatch, id]);
+
+    return isLoading ? (
+        <div className='w-full flex justify-center'>
+            <Loader />
+        </div>
+    ) : (
         <div>
             <div className='w-full max-w-[1000px] mx-auto p-4'>
                 <div className='p-4 border rounded'>
                     <h1 className='font-bold xs:text-2xl md:text-3xl'>
-                        Order ID {id}
+                        Order ID {orderDetails._id}
                     </h1>
                 </div>
+                {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
                 <div className='sm:flex'>
                     <div className='flex-1'>
-                        <div className='border rounded sm:flex p-4 my-4'>
+                        <div className='border rounded sm:flex p-4 my-4 relative'>
                             <div className='md:mr-10 flex-1'>
                                 <h2 className='font-bold'>Shipping address</h2>
                                 <div className='text-sm mt-4'>
@@ -29,123 +49,117 @@ const OrderPage = () => {
                                         <span className='font-semibold'>
                                             Full name:
                                         </span>{' '}
-                                        Lorem, ipsum dolor.
+                                        {shippingDetails?.fullname}
                                     </p>
                                     <p>
                                         <span className='font-semibold'>
                                             Address Line 1:
                                         </span>{' '}
-                                        Lorem ipsum, dolor sit amet consectetur
-                                        adipisicing elit. Ipsam doloremque esse
-                                        quibusdam blanditiis, expedita hic
-                                        perferendis laboriosam! Aliquam,
-                                        officiis sunt.
+                                        {shippingDetails?.addressOne}
                                     </p>
                                     <p>
                                         <span className='font-semibold'>
                                             Address Line 2:
                                         </span>{' '}
-                                        Lorem, ipsum dolor sit amet consectetur
-                                        adipisicing elit. Debitis, culpa.
+                                        {shippingDetails?.addressTwo}
                                     </p>
                                     <p>
                                         <span className='font-semibold'>
                                             City:
                                         </span>{' '}
-                                        lorem
+                                        {shippingDetails?.city}
                                     </p>
                                     <p>
                                         <span className='font-semibold'>
                                             Postal Code:
                                         </span>{' '}
-                                        l5n3a8
+                                        <span className='uppercase'>
+                                            {shippingDetails?.postal}
+                                        </span>
                                     </p>
                                     <p>
                                         <span className='font-semibold'>
                                             Telephone Number:
                                         </span>{' '}
-                                        1234567890
+                                        {shippingDetails?.phone}
                                     </p>
                                 </div>
-                                <div>
-                                    <h2 className='font-semibold text-sm text-red-700 bg-red-300 mt-4 border rounded p-2'>
-                                        Not delivered
-                                    </h2>
-                                </div>
+                                {isDelivered ? (
+                                    <div className='md:w-48'>
+                                        <h2 className='font-semibold text-sm text-green-700 bg-green-300 mt-4 rounded p-2'>
+                                            Delivered at May 21, 2021
+                                        </h2>
+                                    </div>
+                                ) : (
+                                    <div className='md:w-28'>
+                                        <h2 className='font-semibold text-sm text-red-700 bg-red-300 mt-4 rounded p-2'>
+                                            Not delivered
+                                        </h2>
+                                    </div>
+                                )}
                             </div>
-                            <div className='mt-4 sm:mt-0 min-w-[120px] md:flex md:flex-col'>
+                            <div className='mt-4 sm:mt-0 min-w-[160px] md:flex md:flex-col relative'>
                                 <h2 className='font-bold'>Payment</h2>
                                 <p className='text-sm mt-4'>
                                     <span className='font-semibold'>
                                         Method:
                                     </span>{' '}
-                                    PayPal
+                                    {orderDetails.paymentMethod}
                                 </p>
-                                <div>
-                                    <h2 className='font-semibold text-sm text-red-700 bg-red-300 mt-4 border rounded p-2'>
-                                        Not paid
-                                    </h2>
-                                </div>
+                                {isPaid ? (
+                                    <div className='sm:absolute sm:bottom-0'>
+                                        <h2 className='font-semibold text-sm text-green-700 bg-green-300 mt-4 rounded p-2'>
+                                            Paid at May 21, 2021
+                                        </h2>
+                                    </div>
+                                ) : (
+                                    <div className='sm:absolute sm:bottom-0'>
+                                        <h2 className='font-semibold text-sm text-red-700 bg-red-300 mt-4 rounded p-2'>
+                                            Not paid
+                                        </h2>
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <div className='border rounded p-4 my-4'>
                             <h2 className='font-bold'>Order items</h2>
                             <div className='sm:flex flex-col text-sm'>
-                                <div className='sm:flex sm:justify-between w-full my-4'>
-                                    <div className='w-full sm:w-[120px] sm:h-[120px] sm:mr-4'>
-                                        <img
-                                            src=''
-                                            alt='Item'
-                                            className='w-full h-full object-contain'
+                                {orderItems?.map((product) => {
+                                    return (
+                                        <OrderItem
+                                            {...product}
+                                            key={product.productId}
                                         />
-                                    </div>
-                                    <div className='my-4 sm:my-0 flex-1'>
-                                        <h2>Lorem ipsum dolor sit amet.</h2>
-                                        <p>1 x $99.99</p>
-                                    </div>
-                                    <div className='text-right'>
-                                        <p>Price</p>
-                                        <p className='text-base font-semibold'>
-                                            $
-                                            {numeral(1 * 99.99).format(
-                                                '0,0.00'
-                                            )}
-                                        </p>
-                                    </div>
-                                </div>
+                                    );
+                                })}
                             </div>
                         </div>
                     </div>
                     <div className='border rounded sm:my-4 sm:ml-4 p-4 w-full sm:max-w-[200px] md:h-44 sticky top-4'>
                         <h2 className='font-bold'>Order Summary</h2>
                         <div className='flex justify-between mt-2 text-sm'>
-                            <p>Items (1):</p>
-                            <p>$99.99</p>
+                            <p>
+                                Items (
+                                {orderItems?.reduce(
+                                    (a, c) => a + c.quantity,
+                                    0
+                                ) || 0}
+                                ):
+                            </p>
+                            <p>${orderDetails.itemPrice || 0}</p>
                         </div>
                         <div className='flex justify-between mt-2 text-sm'>
                             <p>Shipping:</p>
-                            <p>$10.00</p>
+                            <p>${orderDetails.shippingPrice || 0}</p>
                         </div>
                         <div className='flex justify-between mt-2 text-sm border-b pb-2'>
                             <p>Tax:</p>
-                            <p>$12.99</p>
+                            <p>${orderDetails.taxPrice || 0}</p>
                         </div>
                         <div className='flex justify-between mt-2 font-bold'>
                             <p>Order Total</p>
-                            <p>$112.98</p>
+                            <p>${orderDetails.totalPrice || 0}</p>
                         </div>
-                        {/* {isLoading ? (
-                            <div className='flex justify-center'>
-                                <Loader />
-                            </div>
-                        ) : (
-                            <button
-                                onClick={handlePlaceOrderOnClick}
-                                className='mt-4 py-1 text-sm border border-gray-500 bg-yellow-500 rounded w-full focus:outline-none'
-                            >
-                                Place Order
-                            </button>
-                        )} */}
                     </div>
                 </div>
             </div>
