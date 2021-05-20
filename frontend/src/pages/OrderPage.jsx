@@ -1,12 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Loader from '../components/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrderDetails } from '../redux/actions/order.action';
 import { useHistory, useParams } from 'react-router-dom';
 import OrderItem from '../components/OrderItem';
 import ErrorMessage from '../components/ErrorMessage';
+import axios from 'axios';
+import { PayPalButton } from 'react-paypal-button-v2';
+import numeral from 'numeral';
 
 const OrderPage = () => {
+    const [paypalSdkReady, setPaypalSdkReady] = useState(false);
+
     const { id } = useParams();
     const history = useHistory();
     const dispatch = useDispatch();
@@ -23,8 +28,33 @@ const OrderPage = () => {
     const { isDelivered, isPaid, orderItems, shippingDetails } = orderDetails;
 
     useEffect(() => {
-        dispatch(getOrderDetails(id));
-    }, [dispatch, id]);
+        const addPayPalSdk = async () => {
+            const { data } = await axios.get(
+                `http://localhost:5000/api/config/paypal`
+            );
+            const script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = `https://www.paypal.com/sdk/js?client-id=${data}`;
+            script.async = true;
+            script.onload = () => {
+                setPaypalSdkReady(true);
+            };
+            document.body.appendChild(script);
+        };
+        if (!orderDetails._id) {
+            dispatch(getOrderDetails(id));
+        } else {
+            if (!orderDetails.isPaid) {
+                if (!window.paypal) {
+                    addPayPalSdk();
+                } else {
+                    setPaypalSdkReady(true);
+                }
+            }
+        }
+    }, [dispatch, id, orderDetails]);
+
+    const handlePaypalSuccess = () => {};
 
     return isLoading ? (
         <div className='w-full flex justify-center'>
@@ -42,7 +72,7 @@ const OrderPage = () => {
                 <div className='sm:flex'>
                     <div className='flex-1'>
                         <div className='border rounded sm:flex p-4 my-4 relative'>
-                            <div className='md:mr-10 flex-1'>
+                            <div className='flex-1 sm:mr-4'>
                                 <h2 className='font-bold'>Shipping address</h2>
                                 <div className='text-sm mt-4'>
                                     <p>
@@ -135,7 +165,7 @@ const OrderPage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='border rounded sm:my-4 sm:ml-4 p-4 w-full sm:max-w-[200px] md:h-44 sticky top-4'>
+                    <div className='border rounded sm:my-4 sm:ml-4 p-4 w-full sm:max-w-[232px] sm:h-80 sticky top-4'>
                         <h2 className='font-bold'>Order Summary</h2>
                         <div className='flex justify-between mt-2 text-sm'>
                             <p>
@@ -146,20 +176,52 @@ const OrderPage = () => {
                                 ) || 0}
                                 ):
                             </p>
-                            <p>${orderDetails.itemPrice || 0}</p>
+                            <p>
+                                $
+                                {numeral(orderDetails.itemPrice).format(
+                                    '0,0.00'
+                                ) || numeral(0).format('0,0.00')}
+                            </p>
                         </div>
                         <div className='flex justify-between mt-2 text-sm'>
                             <p>Shipping:</p>
-                            <p>${orderDetails.shippingPrice || 0}</p>
+                            <p>
+                                $
+                                {numeral(orderDetails.shippingPrice).format(
+                                    '0,0.00'
+                                ) || numeral(0).format('0,0.00')}
+                            </p>
                         </div>
                         <div className='flex justify-between mt-2 text-sm border-b pb-2'>
                             <p>Tax:</p>
-                            <p>${orderDetails.taxPrice || 0}</p>
+                            <p>
+                                $
+                                {numeral(orderDetails.taxPrice).format(
+                                    '0,0.00'
+                                ) || numeral(0).format('0,0.00')}
+                            </p>
                         </div>
                         <div className='flex justify-between mt-2 font-bold'>
                             <p>Order Total</p>
-                            <p>${orderDetails.totalPrice || 0}</p>
+                            <p>
+                                $
+                                {numeral(orderDetails.totalPrice).format(
+                                    '0,0.00'
+                                ) || numeral(0).format('0,0.00')}
+                            </p>
                         </div>
+                        {!orderDetails.isPaid && !paypalSdkReady ? (
+                            <div className='flex justify-center mt-8'>
+                                <Loader />
+                            </div>
+                        ) : (
+                            <div className='mt-8 w-full'>
+                                <PayPalButton
+                                    amount={orderDetails.totalPrice}
+                                    onSuccess={handlePaypalSuccess}
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

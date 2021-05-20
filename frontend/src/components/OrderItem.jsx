@@ -14,7 +14,7 @@ const OrderItem = ({ productId, image, title, quantity, price }) => {
             <div className='my-4 sm:my-0 flex-1'>
                 <h2>{title}</h2>
                 <p>
-                    {quantity} x ${price}
+                    {quantity} x ${numeral(price).format('0,0.00')}
                 </p>
             </div>
             <div className='text-right'>
