@@ -3,6 +3,9 @@ import {
     ORDER_CREATE_REQUEST,
     ORDER_CREATE_RESET,
     ORDER_CREATE_SUCCESS,
+    ORDER_DETAILS_FAIL,
+    ORDER_DETAILS_REQUEST,
+    ORDER_DETAILS_SUCCESS,
 } from '../actionTypes';
 
 export const orderCreateReducer = (
@@ -33,6 +36,25 @@ export const orderCreateReducer = (
                 order: {},
                 errorMessage: '',
             };
+        default:
+            return { ...state };
+    }
+};
+export const orderDetailsReducer = (
+    state = {
+        isLoading: false,
+        orderDetails: {},
+        errorMessage: '',
+    },
+    action
+) => {
+    switch (action.type) {
+        case ORDER_DETAILS_REQUEST:
+            return { ...state, isLoading: true };
+        case ORDER_DETAILS_SUCCESS:
+            return { ...state, isLoading: false, orderDetails: action.payload };
+        case ORDER_DETAILS_FAIL:
+            return { ...state, isLoading: false, errorMessage: action.payload };
         default:
             return { ...state };
     }

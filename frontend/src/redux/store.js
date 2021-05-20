@@ -12,7 +12,10 @@ import {
 import { cartReducer } from './reducers/cart.reducer';
 
 import { userLoginReducer, userRegisterReducer } from './reducers/user.reducer';
-import { orderCreateReducer } from './reducers/order.reducer';
+import {
+    orderCreateReducer,
+    orderDetailsReducer,
+} from './reducers/order.reducer';
 
 const initialState = {
     cart: {
@@ -33,6 +36,7 @@ const rootReducer = combineReducers({
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
     orderCreate: orderCreateReducer,
+    orderDetails: orderDetailsReducer,
 });
 
 const store = createStore(
