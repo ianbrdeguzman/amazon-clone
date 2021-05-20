@@ -32,6 +32,10 @@ app.get('/', (req, res) => {
     res.send('Server is ready');
 });
 
+app.get('/api/config/paypal', (req, res) => {
+    res.send(process.env.PAYPAL_CLIENT_ID_SB || 'SB');
+});
+
 // users route
 app.use('/api/users', userRouter);
 
