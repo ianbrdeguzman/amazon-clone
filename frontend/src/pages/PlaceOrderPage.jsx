@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CheckoutSteps from '../components/CheckoutSteps';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { createOrder } from '../redux/actions/order.action';
+import { useHistory } from 'react-router';
 import numeral from 'numeral';
+import { ORDER_CREATE_RESET } from '../redux/actionTypes';
+import Loader from '../components/Loader';
+import { FiAlertTriangle } from 'react-icons/fi';
 
-const PlaceOrder = () => {
+const PlaceOrderPage = () => {
+    const cart = useSelector((state) => state.cart);
+    const { isLoading, success, order, errorMessage } = useSelector(
+        (state) => state.orderCreate
+    );
     const { shippingDetails, paymentMethod, cartItems } = useSelector(
         (state) => state.cart
     );
@@ -16,7 +25,9 @@ const PlaceOrder = () => {
         cartItems.reduce((a, c) => a + c.price * c.quantity, 0)
     ).format('0,0.00');
 
-    const shippingPrice = numeral(cartQuantity > 5 ? 0 : 10).format('0,0.00');
+    const shippingPrice = numeral(
+        cartQuantity > 5 ? 0 : cartQuantity < 1 ? 0 : 10
+    ).format('0,0.00');
 
     const taxPrice = numeral(
         cartItems.reduce((a, c) => a + c.price * c.quantity, 0) * 0.13
@@ -26,9 +37,29 @@ const PlaceOrder = () => {
         '0,0.00'
     );
 
+    const dispatch = useDispatch();
+    const history = useHistory();
+
     const handlePlaceOrderOnClick = () => {
-        console.log('place order...');
+        dispatch(
+            createOrder({
+                ...cart,
+                orderItems: cart.cartItems,
+                cartQuantity: +cartQuantity,
+                itemPrice: +itemPrice,
+                shippingPrice: +shippingPrice,
+                taxPrice: +taxPrice,
+                totalPrice: +totalPrice,
+            })
+        );
     };
+
+    useEffect(() => {
+        if (success) {
+            history.push(`/order/${order._id}`);
+            dispatch({ type: ORDER_CREATE_RESET });
+        }
+    }, [success, history, order, dispatch]);
 
     return (
         <div>
@@ -37,6 +68,19 @@ const PlaceOrder = () => {
             </div>
             <div className='w-full max-w-[1000px] mx-auto p-4'>
                 <h1 className='text-3xl'>Review your order</h1>
+                {errorMessage && (
+                    <div className='border border-red-500 rounded mt-4 p-4 flex'>
+                        <div className='text-red-500 mt-1'>
+                            <FiAlertTriangle size={26} />
+                        </div>
+                        <div className='ml-4'>
+                            <h2 className='text-red-500 font-bold'>
+                                Something went wrong.
+                            </h2>
+                            <p className='text-sm'>{errorMessage}</p>
+                        </div>
+                    </div>
+                )}
                 <div className='sm:flex'>
                     <div className='flex-1'>
                         <div className='border rounded sm:flex p-4 my-4'>
@@ -150,12 +194,18 @@ const PlaceOrder = () => {
                             <p>Order Total</p>
                             <p>${totalPrice}</p>
                         </div>
-                        <button
-                            onClick={handlePlaceOrderOnClick}
-                            className='mt-4 py-1 text-sm border border-gray-500 bg-yellow-500 rounded w-full focus:outline-none'
-                        >
-                            Place Order
-                        </button>
+                        {isLoading ? (
+                            <div className='flex justify-center'>
+                                <Loader />
+                            </div>
+                        ) : (
+                            <button
+                                onClick={handlePlaceOrderOnClick}
+                                className='mt-4 py-1 text-sm border border-gray-500 bg-yellow-500 rounded w-full focus:outline-none'
+                            >
+                                Place Order
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
@@ -163,4 +213,4 @@ const PlaceOrder = () => {
     );
 };
 
-export default PlaceOrder;
+export default PlaceOrderPage;

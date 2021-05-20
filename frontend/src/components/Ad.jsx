@@ -5,8 +5,12 @@ const Ad = ({ cart, payment }) => {
     return (
         <div className='bg-cartBackground pt-4'>
             <div
-                className={`w-full max-w-11/12 bg-white p-4 flex ${
-                    cart ? 'mx-auto' : payment ? 'md:mx-0' : 'md:mx-4'
+                className={`bg-white p-4 flex ${
+                    cart
+                        ? 'w-11/12 mx-auto'
+                        : payment
+                        ? 'w-full mx-0 border rounded'
+                        : 'md:mx-4'
                 }`}
             >
                 <div className='min-w-[90px] mr-4'>

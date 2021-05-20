@@ -3,6 +3,7 @@ import {
     CART_ADD_PAYMENT_METHOD,
     CART_ADD_SHIPPING_DETAILS,
     CART_REMOVE_ITEM,
+    CART_RESET,
 } from '../actionTypes';
 
 export const cartReducer = (
@@ -50,6 +51,8 @@ export const cartReducer = (
                 ...state,
                 paymentMethod: action.payload,
             };
+        case CART_RESET:
+            return { ...state, cartItems: [] };
         default:
             return { ...state };
     }

@@ -62,8 +62,8 @@ const CartPage = () => {
     return (
         <div className='bg-mainBackground py-4 min-h-screenSm md:min-h-screenMd'>
             <Ad cart />
-            <div className='w-11/12 mx-auto lg:flex'>
-                <div className='mt-4 p-4 border bg-white flex-1 lg:mr-4'>
+            <div className='w-11/12 mx-auto md:flex'>
+                <div className='mt-4 p-4 border bg-white flex-1 md:mr-4'>
                     <div>
                         <div className='border-b'>
                             <h1 className='text-4xl my-4'>Shopping Cart</h1>
@@ -95,7 +95,7 @@ const CartPage = () => {
                         </p>
                     </div>
                 </div>
-                <div className='lg:flex-initial mx-auto p-4 border bg-white max-h-28 mt-4 sticky top-4'>
+                <div className='md:flex-initial mx-auto p-4 border bg-white max-h-28 mt-4 sticky top-4'>
                     <p className='text-xl'>
                         Subtotal (
                         {numeral(
