@@ -36,6 +36,10 @@ const Header = () => {
         history.push('/cart');
     };
 
+    const handleOrderHistoryOnClick = () => {
+        history.push('/orderhistory');
+    };
+
     return (
         <div className='md:flex items-center p-4 bg-header text-white'>
             <div className='flex flex-1'>
@@ -84,7 +88,10 @@ const Header = () => {
                         </p>
                     </button>
                 )}
-                <button className='mx-2 p-2 border border-transparent hover:border-white focus:outline-none'>
+                <button
+                    onClick={handleOrderHistoryOnClick}
+                    className='mx-2 p-2 border border-transparent hover:border-white focus:outline-none'
+                >
                     <p className='text-left text-xs'>Returns</p>
                     <p className='text-left font-bold text-xs'>& Orders</p>
                 </button>

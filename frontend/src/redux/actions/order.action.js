@@ -11,6 +11,9 @@ import {
     ORDER_PAY_REQUEST,
     ORDER_PAY_FAIL,
     ORDER_PAY_SUCCESS,
+    ORDER_LIST_MINE_REQUEST,
+    ORDER_LIST_MINE_SUCCESS,
+    ORDER_LIST_MINE_FAIL,
 } from '../actionTypes';
 
 export const createOrder = (order) => async (dispatch, getState) => {
@@ -93,3 +96,28 @@ export const payOrder =
             });
         }
     };
+export const orderListMine = () => async (dispatch, getState) => {
+    dispatch({ type: ORDER_LIST_MINE_REQUEST });
+    try {
+        const {
+            userLogin: { userInfo },
+        } = getState();
+        const { data } = await axios.get(
+            'http://localhost:5000/api/orders/mine',
+            {
+                headers: {
+                    Authorization: `Bearer ${userInfo.token}`,
+                },
+            }
+        );
+        dispatch({ type: ORDER_LIST_MINE_SUCCESS, payload: data });
+    } catch (error) {
+        dispatch({
+            type: ORDER_LIST_MINE_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.response,
+        });
+    }
+};

@@ -1,15 +1,16 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import ProductPage from './pages/ProductPage';
 import Layout from './components/Layout';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import CartPage from './pages/CartPage';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ShippingPage from './pages/ShippingPage';
 import PaymentPage from './pages/PaymentPage';
 import PlaceOrderPage from './pages/PlaceOrderPage';
 import OrderPage from './pages/OrderPage';
+import OrderHistoryPage from './pages/OrderHistoryPage';
 
 function App() {
     return (
@@ -28,6 +29,10 @@ function App() {
                             component={CartPage}
                         />
                         <Route path='/order/:id' component={OrderPage} />
+                        <Route
+                            path='/orderhistory'
+                            component={OrderHistoryPage}
+                        />
                         <Route exact path='/' component={HomePage} />
                         {/* <Route component={HomePage} /> */}
                     </Layout>
