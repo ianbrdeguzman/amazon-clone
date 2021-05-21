@@ -30,7 +30,14 @@ orderRouter.post(
         }
     })
 );
-
+orderRouter.get(
+    '/mine',
+    isAuthenticated,
+    expressAsyncHandler(async (req, res) => {
+        const orders = await Order.find({ user: req.user._id });
+        res.send(orders);
+    })
+);
 orderRouter.get(
     '/:id',
     isAuthenticated,
@@ -43,7 +50,6 @@ orderRouter.get(
         }
     })
 );
-
 orderRouter.put(
     '/:id/pay',
     isAuthenticated,
