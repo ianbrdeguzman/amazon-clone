@@ -6,6 +6,10 @@ import {
     ORDER_DETAILS_FAIL,
     ORDER_DETAILS_REQUEST,
     ORDER_DETAILS_SUCCESS,
+    ORDER_PAY_FAIL,
+    ORDER_PAY_REQUEST,
+    ORDER_PAY_RESET,
+    ORDER_PAY_SUCCESS,
 } from '../actionTypes';
 
 export const orderCreateReducer = (
@@ -55,6 +59,31 @@ export const orderDetailsReducer = (
             return { ...state, isLoading: false, orderDetails: action.payload };
         case ORDER_DETAILS_FAIL:
             return { ...state, isLoading: false, errorMessage: action.payload };
+        default:
+            return { ...state };
+    }
+};
+export const orderPayReducer = (
+    state = {
+        isLoading: false,
+        success: false,
+        errorMessage: '',
+    },
+    action
+) => {
+    switch (action.type) {
+        case ORDER_PAY_REQUEST:
+            return { ...state, isLoading: true };
+        case ORDER_PAY_SUCCESS:
+            return { ...state, isLoading: false, success: true };
+        case ORDER_PAY_FAIL:
+            return { ...state, isLoading: false, errorMessage: action.payload };
+        case ORDER_PAY_RESET:
+            return {
+                isLoading: false,
+                success: false,
+                errorMessage: '',
+            };
         default:
             return { ...state };
     }

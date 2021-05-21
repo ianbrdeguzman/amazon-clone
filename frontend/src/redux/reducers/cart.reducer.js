@@ -9,7 +9,7 @@ import {
 export const cartReducer = (
     state = {
         cartItems: [],
-        shippingAddress: {},
+        shippingDetails: {},
     },
     action
 ) => {
@@ -44,7 +44,7 @@ export const cartReducer = (
         case CART_ADD_SHIPPING_DETAILS:
             return {
                 ...state,
-                shippingAddress: action.payload,
+                shippingDetails: action.payload,
             };
         case CART_ADD_PAYMENT_METHOD:
             return {
@@ -52,7 +52,7 @@ export const cartReducer = (
                 paymentMethod: action.payload,
             };
         case CART_RESET:
-            return { ...state, cartItems: [] };
+            return { ...state, cartItems: [], shippingDetails: {} };
         default:
             return { ...state };
     }

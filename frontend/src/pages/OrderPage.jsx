@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import Loader from '../components/Loader';
-import { useDispatch, useSelector } from 'react-redux';
-import { getOrderDetails } from '../redux/actions/order.action';
-import { useHistory, useParams } from 'react-router-dom';
 import OrderItem from '../components/OrderItem';
 import ErrorMessage from '../components/ErrorMessage';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOrderDetails, payOrder } from '../redux/actions/order.action';
+import { ORDER_PAY_RESET } from '../redux/actionTypes';
+import { useHistory, useParams } from 'react-router-dom';
 import { PayPalButton } from 'react-paypal-button-v2';
+import axios from 'axios';
 import numeral from 'numeral';
+import moment from 'moment';
 
 const OrderPage = () => {
     const [paypalSdkReady, setPaypalSdkReady] = useState(false);
@@ -27,6 +29,12 @@ const OrderPage = () => {
 
     const { isDelivered, isPaid, orderItems, shippingDetails } = orderDetails;
 
+    const {
+        isLoading: isLoadingPay,
+        success: successPay,
+        errorMessage: errorMessagePay,
+    } = useSelector((state) => state.orderPay);
+
     useEffect(() => {
         const addPayPalSdk = async () => {
             const { data } = await axios.get(
@@ -41,7 +49,12 @@ const OrderPage = () => {
             };
             document.body.appendChild(script);
         };
-        if (!orderDetails._id) {
+        if (
+            !orderDetails ||
+            successPay ||
+            (orderDetails && orderDetails._id !== id)
+        ) {
+            dispatch({ type: ORDER_PAY_RESET });
             dispatch(getOrderDetails(id));
         } else {
             if (!orderDetails.isPaid) {
@@ -52,9 +65,11 @@ const OrderPage = () => {
                 }
             }
         }
-    }, [dispatch, id, orderDetails]);
+    }, [dispatch, id, orderDetails, successPay]);
 
-    const handlePaypalSuccess = () => {};
+    const handlePaypalSuccess = (paymentResult) => {
+        dispatch(payOrder(orderDetails, paymentResult));
+    };
 
     return isLoading ? (
         <div className='w-full flex justify-center'>
@@ -69,6 +84,9 @@ const OrderPage = () => {
                     </h1>
                 </div>
                 {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
+                {errorMessagePay && (
+                    <ErrorMessage errorMessage={errorMessagePay} />
+                )}
                 <div className='sm:flex'>
                     <div className='flex-1'>
                         <div className='border rounded sm:flex p-4 my-4 relative'>
@@ -139,7 +157,10 @@ const OrderPage = () => {
                                 {isPaid ? (
                                     <div className='sm:absolute sm:bottom-0'>
                                         <h2 className='font-semibold text-sm text-green-700 bg-green-300 mt-4 rounded p-2'>
-                                            Paid at May 21, 2021
+                                            Paid at{' '}
+                                            {moment(orderDetails.paidAt).format(
+                                                'll'
+                                            )}
                                         </h2>
                                     </div>
                                 ) : (
@@ -165,7 +186,11 @@ const OrderPage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='border rounded sm:my-4 sm:ml-4 p-4 w-full sm:max-w-[232px] sm:h-80 sticky top-4'>
+                    <div
+                        className={`border rounded sm:my-4 sm:ml-4 p-4 w-full sm:max-w-[232px]  sticky top-4 ${
+                            orderDetails.isPaid ? 'sm:h-44' : 'sm:h-80'
+                        }`}
+                    >
                         <h2 className='font-bold'>Order Summary</h2>
                         <div className='flex justify-between mt-2 text-sm'>
                             <p>
@@ -210,10 +235,14 @@ const OrderPage = () => {
                                 ) || numeral(0).format('0,0.00')}
                             </p>
                         </div>
-                        {!orderDetails.isPaid && !paypalSdkReady ? (
+                        {!orderDetails.isPaid &&
+                        !paypalSdkReady &&
+                        isLoadingPay ? (
                             <div className='flex justify-center mt-8'>
                                 <Loader />
                             </div>
+                        ) : orderDetails.isPaid ? (
+                            <></>
                         ) : (
                             <div className='mt-8 w-full'>
                                 <PayPalButton
