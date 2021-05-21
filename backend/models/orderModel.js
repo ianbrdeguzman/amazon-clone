@@ -24,7 +24,7 @@ const orderSchema = new mongoose.Schema(
             phone: { type: String, required: true },
         },
         paymentMethod: { type: String, required: true },
-        paymentDetails: {
+        paymentResult: {
             id: { type: String },
             status: { type: String },
             update_time: { type: String },

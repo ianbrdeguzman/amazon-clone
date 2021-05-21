@@ -52,7 +52,7 @@ orderRouter.put(
         if (order) {
             order.isPaid = true;
             order.paidAt = new Date();
-            paymentDetails = {
+            order.paymentResult = {
                 id: req.body.id,
                 status: req.body.status,
                 update_time: req.body.update_time,
