@@ -3,7 +3,7 @@ import User from '../models/userModel.js';
 import { data } from '../data.js';
 import expressAsyncHandler from 'express-async-handler';
 import bcrypt from 'bcryptjs';
-import { generateToken } from '../utils.js';
+import { generateToken, isAuthenticated } from '../utils.js';
 
 const userRouter = express.Router();
 
@@ -15,7 +15,6 @@ userRouter.get(
         res.send({ createdUsers });
     })
 );
-
 userRouter.post(
     '/register',
     expressAsyncHandler(async (req, res) => {
@@ -34,7 +33,6 @@ userRouter.post(
         });
     })
 );
-
 userRouter.post(
     '/signin',
     expressAsyncHandler(async (req, res) => {
@@ -60,5 +58,15 @@ userRouter.post(
         });
     })
 );
-
+userRouter.get(
+    '/:id',
+    expressAsyncHandler(async (req, res) => {
+        const user = await User.findById(req.params.id);
+        if (user) {
+            res.send(user);
+        } else {
+            res.status(404).send({ message: 'User Not Found.' });
+        }
+    })
+);
 export default userRouter;
