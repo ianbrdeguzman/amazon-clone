@@ -22,7 +22,7 @@ const PlaceOrderPage = () => {
         (state) => state.cart
     );
 
-    if (shippingDetails) {
+    if (!shippingDetails.addressOne) {
         history.push('/shipping');
     }
 
