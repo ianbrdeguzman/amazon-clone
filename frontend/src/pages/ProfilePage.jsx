@@ -8,6 +8,10 @@ import {
     userLogout,
     userUpdateDetails,
 } from '../redux/actions/user.action';
+import {
+    USER_DETAILS_RESET,
+    USER_UPDATE_DETAILS_RESET,
+} from '../redux/actionTypes';
 
 const ProfilePage = () => {
     const dispatch = useDispatch();
@@ -17,6 +21,12 @@ const ProfilePage = () => {
     const { user, isLoading, errorMessage } = useSelector(
         (state) => state.userDetails
     );
+
+    const {
+        isLoading: updateIsLoading,
+        success: updateSuccess,
+        errorMessage: updateErrorMessage,
+    } = useSelector((state) => state.userUpdateDetails);
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -47,7 +57,6 @@ const ProfilePage = () => {
             setPasswordAgainErr(null);
             setPassword('');
             setPasswordAgain('');
-            console.log(user._id, name, email, password);
             dispatch(
                 userUpdateDetails({ userId: user._id, name, email, password })
             );
@@ -61,9 +70,15 @@ const ProfilePage = () => {
             setName(user.name);
             setEmail(user.email);
         }
+        return () => {
+            dispatch({ type: USER_UPDATE_DETAILS_RESET });
+            if (user) {
+                dispatch({ type: USER_DETAILS_RESET });
+            }
+        };
     }, [dispatch, userInfo._id, user]);
 
-    return isLoading ? (
+    return isLoading || updateIsLoading ? (
         <div className='w-full flex justify-center mt-32'>
             <Loader />
         </div>
@@ -72,6 +87,14 @@ const ProfilePage = () => {
             <div className='w-full max-w-[348px] mx-auto p-4 m-4 border rounded'>
                 <h1 className='text-3xl py-4'>Manage your account</h1>
                 {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
+                {updateErrorMessage && (
+                    <ErrorMessage errorMessage={updateErrorMessage} />
+                )}
+                {updateSuccess && (
+                    <div className='border rounded p-2 bg-green-300 text-green-700'>
+                        <p>Profile successfully updated</p>
+                    </div>
+                )}
                 <form onSubmit={handleUpdateUserDetailsOnSubmit}>
                     <label
                         htmlFor='name'
