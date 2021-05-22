@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import logo from '../assets/Amazon_logo.svg';
 import { AiOutlineSearch, AiOutlineShoppingCart } from 'react-icons/ai';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import numeral from 'numeral';
-import { userLogout } from '../redux/actions/user.action';
 
 const Header = () => {
     const [input, setInput] = useState('');
@@ -15,11 +14,9 @@ const Header = () => {
 
     const history = useHistory();
 
-    const dispatch = useDispatch();
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        alert(`${input} Not yet implemented...`);
+        alert(`Not yet implemented...`);
         setInput('');
     };
 
@@ -27,9 +24,8 @@ const Header = () => {
         history.push('/login');
     };
 
-    const handleLogoutOnClick = () => {
-        dispatch(userLogout());
-        history.push('/');
+    const handleProfileOnClick = () => {
+        history.push('/profile');
     };
 
     const handleCartOnClick = () => {
@@ -69,13 +65,15 @@ const Header = () => {
             <div className='flex mt-2 justify-between'>
                 {userInfo ? (
                     <button
-                        onClick={handleLogoutOnClick}
+                        onClick={handleProfileOnClick}
                         className='mx-2 p-2 border border-transparent hover:border-white focus:outline-none'
                     >
                         <p className='text-left text-xs'>
                             Hello, {userInfo.name}
                         </p>
-                        <p className='text-left font-bold text-xs'>Sign out</p>
+                        <p className='text-left font-bold text-xs'>
+                            Account & List
+                        </p>
                     </button>
                 ) : (
                     <button

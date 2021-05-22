@@ -10,13 +10,21 @@ import { useHistory } from 'react-router';
 import numeral from 'numeral';
 
 const PlaceOrderPage = () => {
+    const dispatch = useDispatch();
+    const history = useHistory();
+
     const cart = useSelector((state) => state.cart);
+
     const { isLoading, success, order, errorMessage } = useSelector(
         (state) => state.orderCreate
     );
     const { shippingDetails, paymentMethod, cartItems } = useSelector(
         (state) => state.cart
     );
+
+    if (shippingDetails) {
+        history.push('/shipping');
+    }
 
     const cartQuantity = numeral(
         cartItems.reduce((a, c) => a + c.quantity, 0)
@@ -37,9 +45,6 @@ const PlaceOrderPage = () => {
     const totalPrice = numeral(+itemPrice + +shippingPrice + +taxPrice).format(
         '0,0.00'
     );
-
-    const dispatch = useDispatch();
-    const history = useHistory();
 
     const handlePlaceOrderOnClick = () => {
         dispatch(

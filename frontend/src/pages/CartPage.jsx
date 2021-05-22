@@ -48,7 +48,7 @@ const CartPage = () => {
                                 Your Amazon Cart is empty
                             </h2>
                             <Link to='/'>
-                                <button className='w-full p-1 my-4 bg-checkout rounded-md'>
+                                <button className='w-full p-1 my-4 bg-button rounded-md'>
                                     Go back shopping
                                 </button>
                             </Link>
@@ -114,7 +114,7 @@ const CartPage = () => {
                     </p>
                     <button
                         onClick={handleCheckoutOnClick}
-                        className='w-full p-1 my-4 bg-checkout border border-gray-500 rounded-md'
+                        className='w-full p-1 my-4 bg-button border border-gray-500 rounded-md'
                     >
                         Proceed to checkout
                     </button>

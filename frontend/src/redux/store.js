@@ -11,7 +11,11 @@ import {
 
 import { cartReducer } from './reducers/cart.reducer';
 
-import { userLoginReducer, userRegisterReducer } from './reducers/user.reducer';
+import {
+    userDetailsReducer,
+    userLoginReducer,
+    userRegisterReducer,
+} from './reducers/user.reducer';
 import {
     orderCreateReducer,
     orderDetailsReducer,
@@ -41,6 +45,7 @@ const rootReducer = combineReducers({
     orderDetails: orderDetailsReducer,
     orderPay: orderPayReducer,
     orderList: orderListMineReducer,
+    userDetails: userDetailsReducer,
 });
 
 const store = createStore(
