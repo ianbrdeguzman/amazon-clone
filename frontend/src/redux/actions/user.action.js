@@ -95,7 +95,7 @@ export const userUpdateDetails = (user) => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
         const { data } = await axios.put(
-            `http://localhost:5000/api/users/profile}`,
+            `http://localhost:5000/api/users/profile`,
             user,
             {
                 headers: {
