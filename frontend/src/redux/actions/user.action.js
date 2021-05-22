@@ -11,6 +11,10 @@ import {
     USER_DETAILS_REQUEST,
     USER_DETAILS_FAIL,
     USER_DETAILS_SUCCESS,
+    USER_DETAILS_RESET,
+    USER_UPDATE_DETAILS_REQUEST,
+    USER_UPDATE_DETAILS_FAIL,
+    USER_UPDATE_DETAILS_SUCCESS,
 } from '../actionTypes';
 export const userRegister = (name, email, password) => async (dispatch) => {
     dispatch({ type: USER_REGISTER_REQUEST });
@@ -28,7 +32,6 @@ export const userRegister = (name, email, password) => async (dispatch) => {
         dispatch({ type: USER_LOGIN_SUCESS, payload: data });
         localStorage.setItem('userInfo', JSON.stringify(data));
     } catch (err) {
-        console.log(err.response.data.message);
         dispatch({
             type: USER_REGISTER_FAIL,
             payload:
@@ -66,6 +69,7 @@ export const userLogout = () => async (dispatch) => {
     localStorage.removeItem('cartItems');
     localStorage.removeItem('shippingDetails');
     dispatch({ type: USER_LOGOUT });
+    dispatch({ type: USER_DETAILS_RESET });
 };
 export const userDetails = (userId) => async (dispatch) => {
     dispatch({ type: USER_DETAILS_REQUEST });
@@ -77,6 +81,34 @@ export const userDetails = (userId) => async (dispatch) => {
     } catch (err) {
         dispatch({
             type: USER_DETAILS_FAIL,
+            payload:
+                err.response && err.response.data.message
+                    ? err.response.data.message
+                    : err.message,
+        });
+    }
+};
+export const userUpdateDetails = (user) => async (dispatch, getState) => {
+    dispatch({ type: USER_UPDATE_DETAILS_REQUEST });
+    try {
+        const {
+            userLogin: { userInfo },
+        } = getState();
+        const { data } = await axios.put(
+            `http://localhost:5000/api/users/profile}`,
+            user,
+            {
+                headers: {
+                    Authorization: `Bearer ${userInfo.token}`,
+                },
+            }
+        );
+        dispatch({ type: USER_UPDATE_DETAILS_SUCCESS, payload: data });
+        dispatch({ type: USER_LOGIN_SUCESS, payload: data });
+        localStorage.setItem('userInfo', JSON.stringify(data));
+    } catch (err) {
+        dispatch({
+            type: USER_UPDATE_DETAILS_FAIL,
             payload:
                 err.response && err.response.data.message
                     ? err.response.data.message

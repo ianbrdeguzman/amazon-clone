@@ -3,7 +3,11 @@ import ErrorMessage from '../components/ErrorMessage';
 import Loader from '../components/Loader';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { userDetails, userLogout } from '../redux/actions/user.action';
+import {
+    userDetails,
+    userLogout,
+    userUpdateDetails,
+} from '../redux/actions/user.action';
 
 const ProfilePage = () => {
     const dispatch = useDispatch();
@@ -14,8 +18,8 @@ const ProfilePage = () => {
         (state) => state.userDetails
     );
 
-    const [name, setName] = useState(user.name);
-    const [email, setEmail] = useState(user.email);
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordAgain, setPasswordAgain] = useState('');
 
@@ -43,15 +47,21 @@ const ProfilePage = () => {
             setPasswordAgainErr(null);
             setPassword('');
             setPasswordAgain('');
-            // dispatch(
-            //     userUpdateDetails({ userId: user._id, name, email, password })
-            // );
+            console.log(user._id, name, email, password);
+            dispatch(
+                userUpdateDetails({ userId: user._id, name, email, password })
+            );
         }
-    }, [passwordErr, passwordAgainErr, dispatch]);
+    }, [passwordErr, passwordAgainErr, dispatch, name, email, password, user]);
 
     useEffect(() => {
-        dispatch(userDetails(userInfo._id));
-    }, [dispatch, userInfo._id]);
+        if (!user) {
+            dispatch(userDetails(userInfo._id));
+        } else {
+            setName(user.name);
+            setEmail(user.email);
+        }
+    }, [dispatch, userInfo._id, user]);
 
     return isLoading ? (
         <div className='w-full flex justify-center mt-32'>
