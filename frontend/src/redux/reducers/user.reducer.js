@@ -86,7 +86,14 @@ export const userDetailsReducer = (
             return { ...state };
     }
 };
-export const userUpdateDetailsReducer = (state = {}, action) => {
+export const userUpdateDetailsReducer = (
+    state = {
+        isLoading: false,
+        success: false,
+        errorMessage: '',
+    },
+    action
+) => {
     switch (action.type) {
         case USER_UPDATE_DETAILS_REQUEST:
             return { ...state, isLoading: true };

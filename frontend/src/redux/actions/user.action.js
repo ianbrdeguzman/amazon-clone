@@ -15,6 +15,7 @@ import {
     USER_UPDATE_DETAILS_REQUEST,
     USER_UPDATE_DETAILS_FAIL,
     USER_UPDATE_DETAILS_SUCCESS,
+    USER_UPDATE_DETAILS_RESET,
 } from '../actionTypes';
 export const userRegister = (name, email, password) => async (dispatch) => {
     dispatch({ type: USER_REGISTER_REQUEST });
@@ -70,6 +71,7 @@ export const userLogout = () => async (dispatch) => {
     localStorage.removeItem('shippingDetails');
     dispatch({ type: USER_LOGOUT });
     dispatch({ type: USER_DETAILS_RESET });
+    dispatch({ type: USER_UPDATE_DETAILS_RESET });
 };
 export const userDetails = (userId) => async (dispatch) => {
     dispatch({ type: USER_DETAILS_REQUEST });
