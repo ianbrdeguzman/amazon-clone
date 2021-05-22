@@ -11,6 +11,7 @@ import PaymentPage from './pages/PaymentPage';
 import PlaceOrderPage from './pages/PlaceOrderPage';
 import OrderPage from './pages/OrderPage';
 import OrderHistoryPage from './pages/OrderHistoryPage';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
     return (
@@ -33,6 +34,7 @@ function App() {
                             path='/orderhistory'
                             component={OrderHistoryPage}
                         />
+                        <Route path='/profile' component={ProfilePage} />
                         <Route exact path='/' component={HomePage} />
                         {/* <Route component={HomePage} /> */}
                     </Layout>

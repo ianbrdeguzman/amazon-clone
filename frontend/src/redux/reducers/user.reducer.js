@@ -6,6 +6,9 @@ import {
     USER_REGISTER_REQUEST,
     USER_REGISTER_SUCESS,
     USER_REGISTER_FAIL,
+    USER_DETAILS_REQUEST,
+    USER_DETAILS_SUCCESS,
+    USER_DETAILS_FAIL,
 } from '../actionTypes';
 
 export const userRegisterReducer = (
@@ -27,7 +30,6 @@ export const userRegisterReducer = (
             return { ...state };
     }
 };
-
 export const userLoginReducer = (
     state = {
         isLoading: false,
@@ -50,6 +52,25 @@ export const userLoginReducer = (
                 userInfo: null,
                 errorMessage: null,
             };
+        default:
+            return { ...state };
+    }
+};
+export const userDetailsReducer = (
+    state = {
+        isLoading: false,
+        user: {},
+        errorMessage: '',
+    },
+    action
+) => {
+    switch (action.type) {
+        case USER_DETAILS_REQUEST:
+            return { ...state, isLoading: true };
+        case USER_DETAILS_SUCCESS:
+            return { ...state, isLoading: false, user: action.payload };
+        case USER_DETAILS_FAIL:
+            return { ...state, isLoading: false, errorMessage: action.payload };
         default:
             return { ...state };
     }
