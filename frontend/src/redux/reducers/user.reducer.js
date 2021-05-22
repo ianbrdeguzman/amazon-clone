@@ -9,6 +9,11 @@ import {
     USER_DETAILS_REQUEST,
     USER_DETAILS_SUCCESS,
     USER_DETAILS_FAIL,
+    USER_UPDATE_DETAILS_SUCCESS,
+    USER_UPDATE_DETAILS_REQUEST,
+    USER_UPDATE_DETAILS_FAIL,
+    USER_UPDATE_DETAILS_RESET,
+    USER_DETAILS_RESET,
 } from '../actionTypes';
 
 export const userRegisterReducer = (
@@ -59,7 +64,7 @@ export const userLoginReducer = (
 export const userDetailsReducer = (
     state = {
         isLoading: false,
-        user: {},
+        user: null,
         errorMessage: '',
     },
     action
@@ -71,6 +76,26 @@ export const userDetailsReducer = (
             return { ...state, isLoading: false, user: action.payload };
         case USER_DETAILS_FAIL:
             return { ...state, isLoading: false, errorMessage: action.payload };
+        case USER_DETAILS_RESET:
+            return {
+                isLoading: false,
+                user: null,
+                errorMessage: '',
+            };
+        default:
+            return { ...state };
+    }
+};
+export const userUpdateDetailsReducer = (state = {}, action) => {
+    switch (action.type) {
+        case USER_UPDATE_DETAILS_REQUEST:
+            return { ...state, isLoading: true };
+        case USER_UPDATE_DETAILS_SUCCESS:
+            return { ...state, isLoading: false, success: true };
+        case USER_UPDATE_DETAILS_FAIL:
+            return { ...state, isLoading: false, errorMessage: action.payload };
+        case USER_UPDATE_DETAILS_RESET:
+            return {};
         default:
             return { ...state };
     }
