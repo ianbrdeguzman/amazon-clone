@@ -9,8 +9,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 mongoose.connect(
-    process.env.MONGODB_URL ||
-        `mongodb+srv://admin:${process.env.MONGODB_ADMIN_PASSWORD}@cluster0.z4nms.mongodb.net/amazonClone`,
+    `mongodb://admin:${process.env.MONGODB_ADMIN_PASSWORD}@cluster0-shard-00-00.z4nms.mongodb.net:27017,cluster0-shard-00-01.z4nms.mongodb.net:27017,cluster0-shard-00-02.z4nms.mongodb.net:27017/amazonClone?ssl=true&replicaSet=atlas-q19ry3-shard-0&authSource=admin&retryWrites=true&w=majority`,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
