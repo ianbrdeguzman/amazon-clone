@@ -49,8 +49,28 @@ Check it out [here!](https://trusting-banach-dba1ca.netlify.app/)
     -   Update user details
     -   Sign out
 
-## TODOs
+## TODOs:
 
 -   Admin Dashboard
 -   Search Feature
 -   Stripe checkout
+
+## Challenges:
+
+-   Deploying to Heroku
+
+    -   App encountered buffer timeout error when fetching product list
+    -   Found out that Mongoose lets you start using your models immediately, without waiting for mongoose to establish a connection to MongoDB.
+    -   Solution I came up with is to have multiple connection for each model
+    -   ```
+        const conn = await mongoose.createConnection(
+            mongodb_uri`,
+            {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+                useFindAndModify: false,
+                useCreateIndex: true,
+            }
+        );
+        const Model = conn.model('Model', modelSchema);
+        ```
