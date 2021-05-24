@@ -64,7 +64,7 @@ Check it out [here!](https://trusting-banach-dba1ca.netlify.app/)
     -   Solution I came up with is to have multiple connection for each model
     -   ```
         const conn = await mongoose.createConnection(
-            mongodb_uri`,
+            mongodb_uri,
             {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
