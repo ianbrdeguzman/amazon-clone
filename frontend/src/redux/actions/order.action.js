@@ -23,7 +23,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
         const { data } = await axios.post(
-            'http://localhost:5000/api/orders',
+            'https://protected-brook-28606.herokuapp.com/api/orders',
             order,
             {
                 headers: {
@@ -51,7 +51,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
         const { data } = await axios.get(
-            `http://localhost:5000/api/orders/${id}`,
+            `https://protected-brook-28606.herokuapp.com/api/orders/${id}`,
             {
                 headers: {
                     Authorization: `Bearer ${userInfo.token}`,
@@ -77,7 +77,7 @@ export const payOrder =
                 userLogin: { userInfo },
             } = getState();
             const { data } = await axios.put(
-                `http://localhost:5000/api/orders/${orderDetails._id}/pay`,
+                `https://protected-brook-28606.herokuapp.com/api/orders/${orderDetails._id}/pay`,
                 paymentResult,
                 {
                     headers: {
@@ -103,7 +103,7 @@ export const orderListMine = () => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
         const { data } = await axios.get(
-            'http://localhost:5000/api/orders/mine',
+            'https://protected-brook-28606.herokuapp.com/api/orders/mine',
             {
                 headers: {
                     Authorization: `Bearer ${userInfo.token}`,

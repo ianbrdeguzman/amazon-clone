@@ -12,7 +12,9 @@ import {
 export const getProductList = () => async (dispatch) => {
     try {
         dispatch({ type: PRODUCT_LIST_REQUEST });
-        const { data } = await axios.get('http://localhost:5000/api/products');
+        const { data } = await axios.get(
+            'https://protected-brook-28606.herokuapp.com/api/products'
+        );
         dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
     } catch (err) {
         dispatch({ type: PRODUCT_LIST_FAIL, payload: err });
@@ -23,7 +25,7 @@ export const getProductDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type: PRODUCT_DETAIL_REQUEST });
         const { data } = await axios.get(
-            `http://localhost:5000/api/products/${id}`
+            `https://protected-brook-28606.herokuapp.com/api/products/${id}`
         );
         dispatch({ type: PRODUCT_DETAIL_SUCCESS, payload: data });
     } catch (err) {

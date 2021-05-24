@@ -1,4 +1,7 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const userSchema = new mongoose.Schema(
     {
@@ -12,6 +15,16 @@ const userSchema = new mongoose.Schema(
     }
 );
 
-const User = mongoose.model('User', userSchema);
+const conn = await mongoose.createConnection(
+    `mongodb+srv://admin:${process.env.MONGODB_ADMIN_PASS}@cluster0.7jott.mongodb.net/amazonCloneDB?retryWrites=true&w=majority`,
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true,
+    }
+);
+
+const User = conn.model('User', userSchema);
 
 export default User;

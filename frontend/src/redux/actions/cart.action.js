@@ -9,7 +9,7 @@ import {
 
 export const addToCart = (id, quantity) => async (dispatch, getState) => {
     const { data } = await axios.get(
-        `http://localhost:5000/api/products/${id}`
+        `https://protected-brook-28606.herokuapp.com/api/products/${id}`
     );
     dispatch({
         type: CART_ADD_ITEM,

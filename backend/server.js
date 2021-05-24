@@ -1,26 +1,11 @@
 import express from 'express';
+import connectMongoose from './mongoose.js';
 import cors from 'cors';
-import mongoose from 'mongoose';
 import userRouter from './routers/userRouter.js';
 import productRouter from './routers/productRouter.js';
 import orderRouter from './routers/orderRouter.js';
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-mongoose.connect(
-    `mongodb://admin:${process.env.MONGODB_ADMIN_PASSWORD}@cluster0-shard-00-00.z4nms.mongodb.net:27017,cluster0-shard-00-01.z4nms.mongodb.net:27017,cluster0-shard-00-02.z4nms.mongodb.net:27017/amazonClone?ssl=true&replicaSet=atlas-q19ry3-shard-0&authSource=admin&retryWrites=true&w=majority`,
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useFindAndModify: false,
-        useCreateIndex: true,
-    }
-);
-
-mongoose.connection.once('open', () => {
-    console.log('MongoDB Atlas connection successful');
-});
+await connectMongoose();
 
 const app = express();
 

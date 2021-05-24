@@ -1,4 +1,7 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const orderSchema = new mongoose.Schema(
     {
@@ -47,6 +50,16 @@ const orderSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-const Order = mongoose.model('Order', orderSchema);
+const conn = await mongoose.createConnection(
+    `mongodb+srv://admin:${process.env.MONGODB_ADMIN_PASS}@cluster0.7jott.mongodb.net/amazonCloneDB?retryWrites=true&w=majority`,
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true,
+    }
+);
+
+const Order = conn.model('Order', orderSchema);
 
 export default Order;
