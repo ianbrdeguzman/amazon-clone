@@ -4,6 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { userRegister } from '../redux/actions/user.action';
 import logo from '../assets/Amazon_logo.svg.png';
+import Loader from '../components/Loader';
 
 const RegisterPage = (props) => {
     const [name, setName] = useState('');
@@ -19,7 +20,7 @@ const RegisterPage = (props) => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const { errorMessage, userInfo } = useSelector(
+    const { isLoading, errorMessage, userInfo } = useSelector(
         (state) => state.userRegister
     );
 
@@ -170,12 +171,13 @@ const RegisterPage = (props) => {
                                 Passwords do not match
                             </p>
                         )}
-                        <button
+                        {isLoading ? <div className='flex justify-center align-center'><Loader/></div> : <button
                             type='submit'
                             className='w-full border border-gray-500 rounded my-4 py-1 text-sm bg-button'
                         >
                             Create your Amazon account
-                        </button>
+                        </button>}
+                        
                     </form>
                     <p className='text-xs'>
                         By creating an account, you agree to Amazon's{' '}

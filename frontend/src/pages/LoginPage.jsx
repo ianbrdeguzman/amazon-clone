@@ -4,12 +4,13 @@ import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogin } from '../redux/actions/user.action';
 import logo from '../assets/Amazon_logo.svg.png';
+import Loader from '../components/Loader';
 
 const LoginPage = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const { userInfo, errorMessage } = useSelector((state) => state.userLogin);
+    const { isLoading, userInfo, errorMessage } = useSelector((state) => state.userLogin);
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -77,12 +78,12 @@ const LoginPage = (props) => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <button
+                        {isLoading ? <div className='flex justify-center align-center'><Loader/></div> : <button
                             type='submit'
                             className='w-full border border-gray-500 rounded my-4 py-1 text-sm bg-button'
                         >
                             Continue
-                        </button>
+                        </button>}
                     </form>
                 </div>
                 <div className='text-sm text-center my-4'>
