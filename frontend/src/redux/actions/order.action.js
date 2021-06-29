@@ -23,7 +23,8 @@ export const createOrder = (order) => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
         const { data } = await axios.post(
-            'https://protected-brook-28606.herokuapp.com/api/orders',
+            // 'https://protected-brook-28606.herokuapp.com/api/orders',
+            'https://us-central1-fir-functions-71d1b.cloudfunctions.net/app/api/order',
             order,
             {
                 headers: {
@@ -51,7 +52,8 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
         const { data } = await axios.get(
-            `https://protected-brook-28606.herokuapp.com/api/orders/${id}`,
+            // `https://protected-brook-28606.herokuapp.com/api/orders/${id}`,
+            `https://us-central1-fir-functions-71d1b.cloudfunctions.net/app/api/order/${id}`,
             {
                 headers: {
                     Authorization: `Bearer ${userInfo.token}`,
@@ -77,7 +79,8 @@ export const payOrder =
                 userLogin: { userInfo },
             } = getState();
             const { data } = await axios.put(
-                `https://protected-brook-28606.herokuapp.com/api/orders/${orderDetails._id}/pay`,
+                // `https://protected-brook-28606.herokuapp.com/api/orders/${orderDetails._id}/pay`,
+                `https://us-central1-fir-functions-71d1b.cloudfunctions.net/app/api/order/${orderDetails._id}/pay`,
                 paymentResult,
                 {
                     headers: {
@@ -103,7 +106,8 @@ export const orderListMine = () => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
         const { data } = await axios.get(
-            'https://protected-brook-28606.herokuapp.com/api/orders/mine',
+            // 'https://protected-brook-28606.herokuapp.com/api/orders/mine',
+            'https://us-central1-fir-functions-71d1b.cloudfunctions.net/app/api/order/mine',
             {
                 headers: {
                     Authorization: `Bearer ${userInfo.token}`,

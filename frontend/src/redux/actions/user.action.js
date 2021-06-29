@@ -21,7 +21,8 @@ export const userRegister = (name, email, password) => async (dispatch) => {
     dispatch({ type: USER_REGISTER_REQUEST });
     try {
         const { data } = await axios.post(
-            'https://protected-brook-28606.herokuapp.com/api/users/register',
+            // 'https://protected-brook-28606.herokuapp.com/api/users/register',
+            'https://us-central1-fir-functions-71d1b.cloudfunctions.net/app/api/user/register',
             {
                 name,
                 email,
@@ -46,7 +47,8 @@ export const userLogin = (email, password) => async (dispatch) => {
     dispatch({ type: USER_LOGIN_REQUEST });
     try {
         const { data } = await axios.post(
-            'https://protected-brook-28606.herokuapp.com/api/users/signin',
+            // 'https://protected-brook-28606.herokuapp.com/api/users/signin',
+            'https://us-central1-fir-functions-71d1b.cloudfunctions.net/app/api/user/signin',
             {
                 email,
                 password,
@@ -77,7 +79,8 @@ export const userDetails = (userId) => async (dispatch) => {
     dispatch({ type: USER_DETAILS_REQUEST });
     try {
         const { data } = await axios.get(
-            `https://protected-brook-28606.herokuapp.com/api/users/${userId}`
+            // `https://protected-brook-28606.herokuapp.com/api/users/${userId}`
+            `https://us-central1-fir-functions-71d1b.cloudfunctions.net/app/api/user/${userId}`
         );
         dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
     } catch (err) {
@@ -97,7 +100,8 @@ export const userUpdateDetails = (user) => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
         const { data } = await axios.put(
-            `https://protected-brook-28606.herokuapp.com/api/users/profile`,
+            // `https://protected-brook-28606.herokuapp.com/api/users/profile`,
+            'https://us-central1-fir-functions-71d1b.cloudfunctions.net/app/api/user/profile',
             user,
             {
                 headers: {

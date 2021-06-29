@@ -13,7 +13,8 @@ export const getProductList = () => async (dispatch) => {
     try {
         dispatch({ type: PRODUCT_LIST_REQUEST });
         const { data } = await axios.get(
-            'https://protected-brook-28606.herokuapp.com/api/products'
+            // 'https://protected-brook-28606.herokuapp.com/api/products'
+            'https://us-central1-fir-functions-71d1b.cloudfunctions.net/app/api/product'
         );
         dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
     } catch (err) {
@@ -25,7 +26,8 @@ export const getProductDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type: PRODUCT_DETAIL_REQUEST });
         const { data } = await axios.get(
-            `https://protected-brook-28606.herokuapp.com/api/products/${id}`
+            // `https://protected-brook-28606.herokuapp.com/api/products/${id}`
+            `https://us-central1-fir-functions-71d1b.cloudfunctions.net/app/api/product/${id}`
         );
         dispatch({ type: PRODUCT_DETAIL_SUCCESS, payload: data });
     } catch (err) {
