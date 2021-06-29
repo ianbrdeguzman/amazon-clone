@@ -2,6 +2,10 @@
 
 Check it out [here!](https://trusting-banach-dba1ca.netlify.app/)
 
+## Update:
+- Redeployed backend to Firebase functions.
+- Backend repo [here](https://github.com/ianbrdeguzman/amazon-backend-firebase-functions)
+
 ## Created using:
 
 -   Frontend
