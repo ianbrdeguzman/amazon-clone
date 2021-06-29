@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ErrorMessage from '../components/ErrorMessage';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogin } from '../redux/actions/user.action';
 import logo from '../assets/Amazon_logo.svg.png';
 import Loader from '../components/Loader';
+import { useForm } from 'react-hook-form';
 
 const LoginPage = (props) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const {register, handleSubmit, formState: { errors }} = useForm();
 
     const { isLoading, userInfo, errorMessage } = useSelector((state) => state.userLogin);
 
@@ -19,11 +19,9 @@ const LoginPage = (props) => {
         ? props.location.search.split('=')[1]
         : '/';
 
-    const handleSubmitOnClick = (e) => {
-        e.preventDefault();
-        dispatch(userLogin(email, password));
-        setEmail('');
-        setPassword('');
+    const handleSubmitOnClick = (data, e) => {
+        dispatch(userLogin(data.email, data.password));
+        e.target.reset();
     };
 
     useEffect(() => {
@@ -47,7 +45,7 @@ const LoginPage = (props) => {
                 {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
                 <div className='border rounded p-4'>
                     <h1 className='text-3xl'>Sign In</h1>
-                    <form onSubmit={handleSubmitOnClick}>
+                    <form onSubmit={handleSubmit(handleSubmitOnClick)}>
                         <label
                             htmlFor='email'
                             className='block mt-4 text-sm font-bold'
@@ -57,12 +55,16 @@ const LoginPage = (props) => {
                         <input
                             className='border border-gray-500 w-full py-1 px-2 rounded text-sm'
                             type='text'
-                            name='email'
+                            {...register('email', {
+                                required: 'Please enter a valid email.',
+                                pattern: {
+                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                    message: 'Please enter a valid email address.',
+                                },
+                            })}
                             id='email'
-                            required
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
                         />
+                        {errors.email && <span className='text-xs italic text-red-500'>{errors.email.message}</span>}
                         <label
                             htmlFor='password'
                             className='block text-sm font-bold mt-4'
@@ -72,12 +74,13 @@ const LoginPage = (props) => {
                         <input
                             className='border border-gray-500 w-full py-1 px-2 rounded text-sm'
                             type='password'
-                            name='password'
+                            {...register('password', {
+                                required: 'Please enter your password.',
+                                })}
                             id='password'
-                            required
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            autoComplete='on'
                         />
+                        {errors.password && <span className='text-xs italic text-red-500'>{errors.password.message}</span>}
                         {isLoading ? <div className='flex justify-center align-center'><Loader/></div> : <button
                             type='submit'
                             className='w-full border border-gray-500 rounded my-4 py-1 text-sm bg-button'

@@ -1,24 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ErrorMessage from '../components/ErrorMessage';
 import Loader from '../components/Loader';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    userDetails,
-    userLogout,
-    userUpdateDetails,
-} from '../redux/actions/user.action';
-import {
-    USER_DETAILS_RESET,
-    USER_UPDATE_DETAILS_RESET,
-} from '../redux/actionTypes';
+import { userLogout, userUpdateDetails } from '../redux/actions/user.action';
+import { USER_UPDATE_DETAILS_RESET } from '../redux/actionTypes';
+import { useForm } from 'react-hook-form';
 
 const ProfilePage = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
     const { userInfo } = useSelector((state) => state.userLogin);
-    const { user, isLoading, errorMessage } = useSelector(
+    const { isLoading, errorMessage } = useSelector(
         (state) => state.userDetails
     );
 
@@ -28,55 +22,27 @@ const ProfilePage = () => {
         errorMessage: updateErrorMessage,
     } = useSelector((state) => state.userUpdateDetails);
 
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordAgain, setPasswordAgain] = useState('');
-
-    const [passwordErr, setPasswordErr] = useState(null);
-    const [passwordAgainErr, setPasswordAgainErr] = useState(null);
+    const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
     const handleLogoutOnClick = () => {
         dispatch(userLogout());
         history.push('/');
     };
 
-    const handleUpdateUserDetailsOnSubmit = (e) => {
-        e.preventDefault();
-        password.length < 6 && password.length > 0
-            ? setPasswordErr(true)
-            : setPasswordErr(false);
-        password !== passwordAgain
-            ? setPasswordAgainErr(true)
-            : setPasswordAgainErr(false);
+    const handleUpdateUserDetailsOnSubmit = (data) => {
+        dispatch(userUpdateDetails({ 
+            userId: userInfo._id,
+            name: data.name,
+            email: data.email,
+            password: data.password
+        }))
     };
 
     useEffect(() => {
-        if (passwordErr === false && passwordAgainErr === false) {
-            setPasswordErr(null);
-            setPasswordAgainErr(null);
-            setPassword('');
-            setPasswordAgain('');
-            dispatch(
-                userUpdateDetails({ userId: user._id, name, email, password })
-            );
-        }
-    }, [passwordErr, passwordAgainErr, dispatch, name, email, password, user]);
-
-    useEffect(() => {
-        if (!user) {
-            dispatch(userDetails(userInfo._id));
-        } else {
-            setName(user.name);
-            setEmail(user.email);
-        }
         return () => {
             dispatch({ type: USER_UPDATE_DETAILS_RESET });
-            if (user) {
-                dispatch({ type: USER_DETAILS_RESET });
-            }
         };
-    }, [dispatch, userInfo._id, user]);
+    }, [dispatch]);
 
     return isLoading || updateIsLoading ? (
         <div className='w-full flex justify-center mt-32'>
@@ -95,7 +61,7 @@ const ProfilePage = () => {
                         <p>Profile successfully updated</p>
                     </div>
                 )}
-                <form onSubmit={handleUpdateUserDetailsOnSubmit}>
+                <form onSubmit={handleSubmit(handleUpdateUserDetailsOnSubmit)}>
                     <label
                         htmlFor='name'
                         className='block mt-4 text-sm font-bold'
@@ -105,11 +71,16 @@ const ProfilePage = () => {
                     <input
                         className='border w-full py-1 px-2 rounded text-sm focus:ring-2 focus:ring-yellow-500 outline-none'
                         type='text'
-                        name='name'
+                        {...register("name", {
+                            minLength: {
+                                    value: 3,
+                                    message: 'Your name must contain atleast 3 characters.'
+                                }
+                        })}
                         id='name'
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        defaultValue={userInfo.name}
                     />
+                    {errors.name && <span className='text-xs italic text-red-500'>{errors.name.message}</span>}
                     <label
                         htmlFor='email'
                         className='block mt-4 text-sm font-bold'
@@ -119,12 +90,16 @@ const ProfilePage = () => {
                     <input
                         className='border w-full py-1 px-2 rounded text-sm focus:ring-2 focus:ring-yellow-500 outline-none'
                         type='text'
-                        name='email'
+                        {...register('email', {
+                            pattern: {
+                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                message: 'Please enter a valid email address.',
+                            },
+                        })}
                         id='email'
-                        pattern='[^@\s]+@[^@\s]+\.[^@\s]+'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        defaultValue={userInfo.email}
                     />
+                    {errors.email && <span className='text-xs italic text-red-500'>{errors.email.message}</span>}
                     <label
                         htmlFor='password'
                         className='block mt-4 text-sm font-bold'
@@ -134,16 +109,20 @@ const ProfilePage = () => {
                     <input
                         className='border w-full py-1 px-2 rounded text-sm focus:ring-2 focus:ring-yellow-500 outline-none'
                         type='password'
-                        name='password'
+                        {...register('password', {
+                            minLength: {
+                                value: 4,
+                                message: 'Your password must contain between 4 and 60 characters.',
+                            },
+                            maxLength: {
+                                value: 60,
+                                message: 'Your password must contain between 4 and 60 characters.'
+                            }
+                        })}
                         id='password'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        autoComplete='on'
                     />
-                    {passwordErr && (
-                        <p className='text-xs text-red-500'>
-                            Password must consist of at least 6 characters
-                        </p>
-                    )}
+                    {errors.password && <span className='text-xs italic text-red-500'>{errors.password.message}</span>}
                     <label
                         htmlFor='password'
                         className='block mt-4 text-sm font-bold'
@@ -153,16 +132,13 @@ const ProfilePage = () => {
                     <input
                         className='border w-full py-1 px-2 rounded text-sm focus:ring-2 focus:ring-yellow-500 outline-none'
                         type='password'
-                        name='password'
+                        {...register('passwordAgain', {
+                            validate: (value) => value === watch('password') || 'Password does not match.'
+                        })}
                         id='passwordAgain'
-                        value={passwordAgain}
-                        onChange={(e) => setPasswordAgain(e.target.value)}
+                        autoComplete='on'
                     />
-                    {passwordAgainErr && (
-                        <p className='text-xs text-red-500'>
-                            Passwords do not match
-                        </p>
-                    )}
+                    {errors.passwordAgain && <span className='text-xs italic text-red-500'>{errors.passwordAgain.message}</span>}
                     <button
                         className='w-full border border-gray-500 rounded my-4 py-1 text-sm bg-button'
                         type='submit'

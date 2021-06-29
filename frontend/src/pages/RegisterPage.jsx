@@ -1,21 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ErrorMessage from '../components/ErrorMessage';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { userRegister } from '../redux/actions/user.action';
 import logo from '../assets/Amazon_logo.svg.png';
 import Loader from '../components/Loader';
+import { useForm } from 'react-hook-form';
 
 const RegisterPage = (props) => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordAgain, setPasswordAgain] = useState('');
-
-    const [nameErr, setNameErr] = useState(null);
-    const [emailErr, setEmailErr] = useState(null);
-    const [passwordErr, setPasswordErr] = useState(null);
-    const [passwordAgainErr, setPasswordAgainErr] = useState(null);
+    const {register, handleSubmit, watch, formState: { errors }} = useForm();
 
     const history = useHistory();
     const dispatch = useDispatch();
@@ -24,50 +17,14 @@ const RegisterPage = (props) => {
         (state) => state.userRegister
     );
 
-    const handleSubmitOnClick = (e) => {
-        e.preventDefault();
-        name.length === 0 ? setNameErr(true) : setNameErr(false);
-        email.length === 0 ? setEmailErr(true) : setEmailErr(false);
-        password.length < 6 ? setPasswordErr(true) : setPasswordErr(false);
-        password !== passwordAgain || passwordAgain.length === 0
-            ? setPasswordAgainErr(true)
-            : setPasswordAgainErr(false);
+    const handleSubmitOnClick = (data, e) => {
+        dispatch(userRegister(data.name, data.email, data.password));
+        e.target.reset();
     };
 
     const redirect = props.location.search
         ? props.location.search.split('=')[1]
         : '/';
-
-    useEffect(() => {
-        if (
-            nameErr === false &&
-            emailErr === false &&
-            passwordErr === false &&
-            passwordAgainErr === false
-        ) {
-            setNameErr(null);
-            setEmailErr(null);
-            setPasswordErr(null);
-            setPasswordAgainErr(null);
-            setName('');
-            setEmail('');
-            setPassword('');
-            setPasswordAgain('');
-            dispatch(userRegister(name, email, password));
-        }
-    }, [
-        name,
-        email,
-        password,
-        passwordAgain,
-        history,
-        nameErr,
-        emailErr,
-        passwordErr,
-        passwordAgainErr,
-        dispatch,
-        redirect,
-    ]);
 
     useEffect(() => {
         if (errorMessage) {
@@ -93,7 +50,7 @@ const RegisterPage = (props) => {
                 {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
                 <div className='border rounded p-4'>
                     <h1 className='text-3xl'>Create account</h1>
-                    <form onSubmit={handleSubmitOnClick}>
+                    <form onSubmit={handleSubmit(handleSubmitOnClick)}>
                         <label
                             htmlFor='name'
                             className='block mt-4 text-sm font-bold'
@@ -103,16 +60,16 @@ const RegisterPage = (props) => {
                         <input
                             className='border border-gray-500 w-full py-1 px-2 rounded text-sm'
                             type='text'
-                            name='name'
+                            {...register("name", {
+                                required: 'Please enter a valid name.',
+                                minLength: {
+                                    value: 3,
+                                    message: 'Your name must contain atleast 3 characters.'
+                                }
+                            })}
                             id='name'
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
                         />
-                        {nameErr && (
-                            <p className='text-xs text-red-500'>
-                                Enter your name
-                            </p>
-                        )}
+                        {errors.name && <span className='text-xs italic text-red-500'>{errors.name.message}</span>}
                         <label
                             htmlFor='email'
                             className='block mt-4 text-sm font-bold'
@@ -122,17 +79,16 @@ const RegisterPage = (props) => {
                         <input
                             className='border border-gray-500 w-full py-1 px-2 rounded text-sm'
                             type='text'
-                            name='email'
+                            {...register('email', {
+                                required: 'Please enter a valid email.',
+                                pattern: {
+                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                    message: 'Please enter a valid email address.',
+                                },
+                            })}
                             id='email'
-                            pattern='[^@\s]+@[^@\s]+\.[^@\s]+'
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
                         />
-                        {emailErr && (
-                            <p className='text-xs text-red-500'>
-                                Enter your e-mail
-                            </p>
-                        )}
+                        {errors.email && <span className='text-xs italic text-red-500'>{errors.email.message}</span>}
                         <label
                             htmlFor='password'
                             className='block mt-4 text-sm font-bold'
@@ -142,16 +98,21 @@ const RegisterPage = (props) => {
                         <input
                             className='border border-gray-500 w-full py-1 px-2 rounded text-sm'
                             type='password'
-                            name='password'
+                            {...register('password', {
+                                required: 'Your password must contain between 4 and 60 characters.',
+                                minLength: {
+                                    value: 4,
+                                    message: 'Your password must contain between 4 and 60 characters.',
+                                    },
+                                maxLength: {
+                                    value: 60,
+                                    message: 'Your password must contain between 4 and 60 characters.',
+                                },
+                            })}
                             id='password'
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            autoComplete='on'
                         />
-                        {passwordErr && (
-                            <p className='text-xs text-red-500'>
-                                Password must consist of at least 6 characters
-                            </p>
-                        )}
+                        {errors.password && <span className='text-xs italic text-red-500'>{errors.password.message}</span>}
                         <label
                             htmlFor='password'
                             className='block mt-4 text-sm font-bold'
@@ -161,16 +122,14 @@ const RegisterPage = (props) => {
                         <input
                             className='border border-gray-500 w-full py-1 px-2 rounded text-sm'
                             type='password'
-                            name='password'
+                            {...register('passwordAgain', {
+                                required: 'Your password must contain between 4 and 60 characters.',
+                                validate: (value) => value === watch('password') || 'Password does not match.',
+                                })}
                             id='passwordAgain'
-                            value={passwordAgain}
-                            onChange={(e) => setPasswordAgain(e.target.value)}
+                            autoComplete='on'
                         />
-                        {passwordAgainErr && (
-                            <p className='text-xs text-red-500'>
-                                Passwords do not match
-                            </p>
-                        )}
+                        {errors.passwordAgain && <span className='text-xs italic text-red-500'>{errors.passwordAgain.message}</span>}
                         {isLoading ? <div className='flex justify-center align-center'><Loader/></div> : <button
                             type='submit'
                             className='w-full border border-gray-500 rounded my-4 py-1 text-sm bg-button'
